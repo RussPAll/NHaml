@@ -62,11 +62,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentType.cs" />
+    <Compile Include="NHamlClassificationFormat.cs" />
     <Compile Include="NHamlClassificationTypes.cs" />
-    <Compile Include="NHamlSyntaxHighlighterFormat.cs" />
-    <Compile Include="NHamlSyntaxHighlighterProvider.cs" />
-    <Compile Include="NHamlSyntaxHighlighterType.cs" />
-    <Compile Include="NHamlSyntaxHighlighter.cs" />
+    <Compile Include="NHamlSyntaxProvider.cs" />
+    <Compile Include="NHamlClassifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
