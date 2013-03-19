@@ -9,17 +9,17 @@ namespace NHamlSyntaxHighlighter
 
         [Export]
         [Name(NHaml)]
-        [DisplayName("NHaml")]
-        public static ContentTypeDefinition NHamlContentType = null;
+        [BaseDefinition("code")]
+        internal static ContentTypeDefinition NHamlContentTypeDefinition = null;
 
         [Export]
         [ContentType(NHaml)]
         [FileExtension(".haml")]
-        public static FileExtensionToContentTypeDefinition HamlFileExtension = null;
+        internal static FileExtensionToContentTypeDefinition HamlFileExtensionDefinition = null;
 
         [Export]
         [ContentType(NHaml)]
         [FileExtension(".nhaml")]
-        public static FileExtensionToContentTypeDefinition NHamlFileExtension = null;
+        internal static FileExtensionToContentTypeDefinition NHamlFileExtensionDefinition = null;
     }
 }

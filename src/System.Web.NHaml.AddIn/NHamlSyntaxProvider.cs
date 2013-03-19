@@ -7,7 +7,7 @@ namespace NHamlSyntaxHighlighter
 {
     [Export(typeof(IClassifierProvider))]
     [ContentType(ContentType.NHaml)]
-    internal class NHamlSyntaxHighlighterProvider : IClassifierProvider
+    internal class NHamlSyntaxProvider : IClassifierProvider
     {
         [Import]
         internal IClassificationTypeRegistryService ClassificationRegistry = null;
@@ -15,7 +15,7 @@ namespace NHamlSyntaxHighlighter
         public IClassifier GetClassifier(ITextBuffer buffer)
         {
             return buffer.Properties.GetOrCreateSingletonProperty(
-                () => new NHamlSyntaxHighlighter(ClassificationRegistry));
+                () => new NHamlClassifier(buffer, ClassificationRegistry));
         }
     }
 }
