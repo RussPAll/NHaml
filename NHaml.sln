@@ -28,6 +28,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{0AF7F3
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Web.NHaml.AddIn", "src\System.Web.NHaml.AddIn\System.Web.NHaml.AddIn.csproj", "{93D291E2-8DC2-4C03-B510-0506C74039DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Web.NHaml.AddIn.Tests", "tests\System.Web.NHaml.AddIn.Tests\System.Web.NHaml.AddIn.Tests.csproj", "{1F4DBFDA-7E32-488F-AC29-0A835250E03C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,12 @@ Global
 		{93D291E2-8DC2-4C03-B510-0506C74039DC}.Profiled|Any CPU.Build.0 = Release|Any CPU
 		{93D291E2-8DC2-4C03-B510-0506C74039DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93D291E2-8DC2-4C03-B510-0506C74039DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F4DBFDA-7E32-488F-AC29-0A835250E03C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F4DBFDA-7E32-488F-AC29-0A835250E03C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F4DBFDA-7E32-488F-AC29-0A835250E03C}.Profiled|Any CPU.ActiveCfg = Release|Any CPU
+		{1F4DBFDA-7E32-488F-AC29-0A835250E03C}.Profiled|Any CPU.Build.0 = Release|Any CPU
+		{1F4DBFDA-7E32-488F-AC29-0A835250E03C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F4DBFDA-7E32-488F-AC29-0A835250E03C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -89,5 +97,6 @@ Global
 		{92236FD2-3C06-4487-A6ED-E3E89511665B} = {8D9585A7-E660-4DA3-ACEF-688763473022}
 		{67DD89E7-D115-4714-A4F0-27A837D92A56} = {8D9585A7-E660-4DA3-ACEF-688763473022}
 		{477CC932-ACC5-4F6A-93D1-F44BE2A11D2C} = {8D9585A7-E660-4DA3-ACEF-688763473022}
+		{1F4DBFDA-7E32-488F-AC29-0A835250E03C} = {8D9585A7-E660-4DA3-ACEF-688763473022}
 	EndGlobalSection
 EndGlobal
