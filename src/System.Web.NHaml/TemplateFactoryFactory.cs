@@ -11,7 +11,6 @@ namespace System.Web.NHaml
 {
     public class TemplateFactoryFactory : ITemplateFactoryFactory
     {
-        private readonly ITreeParser _treeParser;
         private readonly IDocumentWalker _treeWalker;
         private readonly ITemplateFactoryCompiler _templateFactoryCompiler;
 
@@ -19,12 +18,17 @@ namespace System.Web.NHaml
         private readonly IEnumerable<string> _referencedAssemblyLocations;
         private readonly IDictionary<string, HamlDocument> _hamlDocumentCache = new Dictionary<string, HamlDocument>();
         private ITemplateContentProvider _contentProvider;
+        private readonly IViewSourceParser _viewSourceParser;
 
-        public TemplateFactoryFactory(ITemplateContentProvider contentProvider, ITreeParser treeParser, IDocumentWalker treeWalker,
-            ITemplateFactoryCompiler templateCompiler, IEnumerable<string> imports, IEnumerable<string> referencedAssemblyLocations)
+        public TemplateFactoryFactory(
+            ITemplateContentProvider contentProvider,
+            IViewSourceParser viewSourceParser,
+            IDocumentWalker treeWalker,
+            ITemplateFactoryCompiler templateCompiler,
+            IEnumerable<string> imports, IEnumerable<string> referencedAssemblyLocations)
         {
             _contentProvider = contentProvider;
-            _treeParser = treeParser;
+            _viewSourceParser = viewSourceParser;
             _treeWalker = treeWalker;
             _templateFactoryCompiler = templateCompiler;
             _imports = imports;
@@ -53,7 +57,7 @@ namespace System.Web.NHaml
         {
             _hamlDocumentCache.Clear();
             var hamlDocument = HamlDocumentCacheGetOrAdd(viewSourceList.First().FileName,
-                () => _treeParser.ParseViewSource(viewSourceList.First()));
+                () => _viewSourceParser.Parse(viewSourceList.First()));
 
             var masterPage = GetMasterPage();
             hamlDocument = ApplyMasterPage(hamlDocument, masterPage);
@@ -64,7 +68,7 @@ namespace System.Web.NHaml
                 ViewSource viewSource = GetPartial(viewSourceList, partial.Content);
 
                 var partialDocument = HamlDocumentCacheGetOrAdd(viewSource.FileName,
-                    () => _treeParser.ParseViewSource(viewSource));
+                    () => _viewSourceParser.Parse(viewSource));
                 partial.SetDocument(partialDocument);
             }
             return hamlDocument;
@@ -77,7 +81,7 @@ namespace System.Web.NHaml
             {
                 var masterView = _contentProvider.GetViewSource("Views/Shared/Application.haml");
                 return masterView != null
-                    ? HamlDocumentCacheGetOrAdd(masterView.FileName, () => _treeParser.ParseViewSource(masterView))
+                    ? HamlDocumentCacheGetOrAdd(masterView.FileName, () => _viewSourceParser.Parse(masterView))
                     : null;
             }
             catch (FileNotFoundException)

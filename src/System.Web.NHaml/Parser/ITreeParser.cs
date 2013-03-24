@@ -1,9 +1,9 @@
-﻿using System.Web.NHaml.TemplateResolution;
+﻿using System.Web.NHaml.IO;
 
 namespace System.Web.NHaml.Parser
 {
     public interface ITreeParser
     {
-        HamlDocument ParseViewSource(ViewSource viewSource);
+        HamlDocument ParseHamlFile(HamlFile hamlFile);
     }
 }

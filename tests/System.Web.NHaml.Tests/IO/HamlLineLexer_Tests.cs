@@ -17,7 +17,7 @@ namespace NHaml.Tests.IO
         [TestCase("\t Test", "\t ", Description = "Tab + Space followed by plain text")]
         public void Constructor_CalculatesIndentCorrectly(string testString, string expectedIndent)
         {
-            var line = new HamlLineLexer().ParseHamlLine(testString, 0);
+            var line = HamlLineLexer.ParseHamlLine(testString, 0);
             Assert.AreEqual(expectedIndent, line.First().Indent);
         }
 
@@ -36,7 +36,7 @@ namespace NHaml.Tests.IO
         public void Constructor_InlineContent_GeneratesCorrectLines(
             string templateLine, string expectedLine1, string expectedLine2)
         {
-            var lines = new HamlLineLexer().ParseHamlLine(templateLine, 0).ToList();
+            var lines = HamlLineLexer.ParseHamlLine(templateLine, 0).ToList();
 
             int expectedLineCount = expectedLine2 == null ? 1 : 2;
 

@@ -39,8 +39,8 @@ namespace NHaml.Tests.Walkers
             // Arrange
             const string className = "ClassName";
             Type baseType = typeof(Template);
-            var parser = new HamlTreeParser(new HamlFileLexer());
-            var document = parser.ParseDocumentSource("Simple content", "");
+            var parser = new HamlTreeParser();
+            var document = parser.ParseHamlFile(new HamlFileLexer().Read("Simple content"));
             var imports = new List<string>();
 
             // Act

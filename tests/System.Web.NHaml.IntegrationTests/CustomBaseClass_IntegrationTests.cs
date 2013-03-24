@@ -26,7 +26,7 @@ namespace NHaml.IntegrationTests
         {
             var templateFactoryFactory = new TemplateFactoryFactory(
                 new FileTemplateContentProvider(),
-                new HamlTreeParser(new HamlFileLexer()),
+                new ViewSourceParser(new HamlFileLexer(), new HamlTreeParser()),
                 new HamlDocumentWalker(new CodeDomClassBuilder()),
                 new CodeDomTemplateCompiler(new CSharp2TemplateTypeBuilder()),
                 new List<string>(),

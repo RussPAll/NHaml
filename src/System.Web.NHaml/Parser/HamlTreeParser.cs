@@ -1,48 +1,13 @@
-﻿using System.Text;
-using System.IO;
-using System.Web.NHaml.IO;
-using System.Web.NHaml.TemplateResolution;
+﻿using System.Web.NHaml.IO;
 
 namespace System.Web.NHaml.Parser
 {
     public class HamlTreeParser : ITreeParser
     {
-        private readonly HamlFileLexer _hamlFileLexer;
-
-        public HamlTreeParser(HamlFileLexer hamlFileLexer)
-        {
-            _hamlFileLexer = hamlFileLexer;
-        }
-
-        public HamlDocument ParseViewSource(ViewSource layoutViewSource)
-        {
-            using (var streamReader = layoutViewSource.GetTextReader())
-            {
-                return ParseStreamReader(streamReader, layoutViewSource.FileName);
-            }
-        }
-
-        public HamlDocument ParseDocumentSource(string documentSource, string fileName)
-        {
-            using (var streamReader = new StreamReader(
-                new MemoryStream(new UTF8Encoding().GetBytes(documentSource))))
-            {
-                return ParseStreamReader(streamReader, fileName);
-            }
-        }
-
-        private HamlDocument ParseStreamReader(TextReader reader, string fileName)
-        {
-            var hamlFile = _hamlFileLexer.Read(reader, fileName);
-            return ParseHamlFile(hamlFile);
-        }
-
         public HamlDocument ParseHamlFile(HamlFile hamlFile)
         {
             var result = new HamlDocument(hamlFile.FileName);
-
             ParseNode(result, hamlFile);
-
             return result;
         }
 

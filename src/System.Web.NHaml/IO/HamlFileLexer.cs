@@ -8,11 +8,10 @@ namespace System.Web.NHaml.IO
     {
         bool _eof;
         int _sourceFileLineIndex;
-        private readonly HamlLineLexer _lineLexer;
 
-        public HamlFileLexer()
+        public HamlFile Read(string document)
         {
-            _lineLexer = new HamlLineLexer();
+            return Read(new StringReader(document), "");
         }
 
         public HamlFile Read(TextReader reader, string fileName)
@@ -34,14 +33,14 @@ namespace System.Web.NHaml.IO
         private void ReadHamlLine(TextReader reader, HamlFile result)
         {
             string currentLine = ReadLine(reader);
-            while (_lineLexer.GetEndOfTagIndex(currentLine) < 0)
+            while (HamlLineLexer.GetEndOfTagIndex(currentLine) < 0)
             {
                 if (_eof)
                     throw new HamlMalformedTagException("Multi-line tag found with no end token.", _sourceFileLineIndex);
                 currentLine += " " + ReadLine(reader);
             }
 
-            result.AddRange(new HamlLineLexer().ParseHamlLine(currentLine, _sourceFileLineIndex - 1));
+            result.AddRange(HamlLineLexer.ParseHamlLine(currentLine, _sourceFileLineIndex - 1));
         }
 
         private string ReadLine(TextReader reader)

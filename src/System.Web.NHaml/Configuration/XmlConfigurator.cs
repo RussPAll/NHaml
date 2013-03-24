@@ -40,7 +40,8 @@ namespace System.Web.NHaml.Configuration
 
             var templateFactoryFactory = new TemplateFactoryFactory(
                 templateContentProvider,
-                new HamlTreeParser(new HamlFileLexer()),
+                new ViewSourceParser(
+                    new HamlFileLexer(), new HamlTreeParser()),
                 new HamlDocumentWalker(new CodeDomClassBuilder()),
                 new CodeDomTemplateCompiler(new CSharp2TemplateTypeBuilder()),
                 nhamlConfiguration.ImportsList.Concat(imports),

@@ -1,5 +1,6 @@
 ﻿using System.Web.NHaml;
 using System.Web.NHaml.Compilers;
+using System.Web.NHaml.IO;
 using System.Web.NHaml.Parser;
 using System.Web.NHaml.TemplateBase;
 using System.Web.NHaml.TemplateResolution;
@@ -13,9 +14,10 @@ using System;
 namespace NHaml.Tests
 {
     [TestFixture]
+    // ReSharper disable InconsistentNaming
     public class CompiledTemplate_Tests
     {
-        private Mock<ITreeParser> _parserMock;
+        private Mock<IViewSourceParser> _viewSourceParserMock;
         private Mock<ITemplateFactoryCompiler> _compilerMock;
         private Mock<IDocumentWalker> _documentWalkerMock;
         private Mock<ITemplateContentProvider> _templateContentProviderMock;
@@ -24,9 +26,9 @@ namespace NHaml.Tests
         [SetUp]
         public void SetUp()
         {
-            _parserMock = new Mock<ITreeParser>();
-            _parserMock.Setup(x => x.ParseViewSource(It.IsAny<ViewSource>()))
-                .Returns(HamlDocumentBuilder.Create());
+            _viewSourceParserMock = new Mock<IViewSourceParser>();
+            _viewSourceParserMock.Setup(x => x.Parse(It.IsAny<ViewSource>()))
+                                 .Returns(HamlDocumentBuilder.Create());
             _compilerMock = new Mock<ITemplateFactoryCompiler>();
             _documentWalkerMock = new Mock<IDocumentWalker>();
             _templateContentProviderMock = new Mock<ITemplateContentProvider>();
@@ -40,12 +42,14 @@ namespace NHaml.Tests
             var fakeHamlSource = ViewSourceBuilder.Create();
 
             // Act
-            var compiledTemplate = new TemplateFactoryFactory(_templateContentProviderMock.Object, _parserMock.Object,
+            var compiledTemplate = new TemplateFactoryFactory(
+                _templateContentProviderMock.Object,
+                _viewSourceParserMock.Object,
                 _documentWalkerMock.Object, _compilerMock.Object, new List<string>(), new List<string>());
             compiledTemplate.CompileTemplateFactory("className", fakeHamlSource);
 
             // Assert
-            _parserMock.Verify(x => x.ParseViewSource(fakeHamlSource));
+            _viewSourceParserMock.Verify(x => x.Parse(fakeHamlSource));
         }
 
         [Test]
@@ -56,13 +60,13 @@ namespace NHaml.Tests
             var baseType = typeof(Template);
 
             var fakeHamlDocument = HamlDocumentBuilder.Create("");
-            _parserMock.Setup(x => x.ParseViewSource(It.IsAny<ViewSource>()))
+            _viewSourceParserMock.Setup(x => x.Parse(It.IsAny<ViewSource>()))
                 .Returns(fakeHamlDocument);
             var viewSource = ViewSourceBuilder.Create();
             var imports = new List<string>();
 
             // Act
-            var compiledTemplate = new TemplateFactoryFactory(_contentProviderMock.Object, _parserMock.Object,
+            var compiledTemplate = new TemplateFactoryFactory(_contentProviderMock.Object, _viewSourceParserMock.Object,
                 _documentWalkerMock.Object, _compilerMock.Object, new List<string>(), imports);
             compiledTemplate.CompileTemplateFactory(className, new ViewSourceCollection { viewSource }, baseType);
 
@@ -74,7 +78,7 @@ namespace NHaml.Tests
         public void CompileTemplateFactory_CallsCompile()
         {
             // Arrange
-            var fakeTemplateSource = "FakeTemplateSource";
+            const string fakeTemplateSource = "FakeTemplateSource";
             _documentWalkerMock.Setup(x => x.Walk(It.IsAny<HamlDocument>(), It.IsAny<string>(),
                 It.IsAny<Type>(), It.IsAny<IList<string>>()))
                 .Returns(fakeTemplateSource);
@@ -82,7 +86,7 @@ namespace NHaml.Tests
             var assemblies = new List<string>();
 
             // Act
-            var compiledTemplate = new TemplateFactoryFactory(_contentProviderMock.Object, _parserMock.Object,
+            var compiledTemplate = new TemplateFactoryFactory(_contentProviderMock.Object, _viewSourceParserMock.Object,
                 _documentWalkerMock.Object, _compilerMock.Object, new List<string>(), assemblies);
             compiledTemplate.CompileTemplateFactory(viewSource.GetClassName(), viewSource);
 

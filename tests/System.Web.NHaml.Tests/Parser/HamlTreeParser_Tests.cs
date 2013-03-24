@@ -17,14 +17,14 @@ namespace NHaml.Tests.Parser
         [SetUp]
         public void Setup()
         {
-            _parser = new HamlTreeParser(new HamlFileLexer());
+            _parser = new HamlTreeParser();
         }
 
         [Test]
-        public void ParseViewSource_SingleLineTemplate_ReturnsHamlTree()
+        public void ParseHamlFile_SingleLineTemplate_ReturnsHamlTree()
         {
-            var viewSource = ViewSourceBuilder.Create("Test");
-            var result = _parser.ParseViewSource(viewSource);
+            var file = new HamlFileLexer().Read("Test");
+            var result = _parser.ParseHamlFile(file);
             Assert.IsInstanceOf(typeof(HamlDocument), result);
         }
 
@@ -34,9 +34,10 @@ namespace NHaml.Tests.Parser
         [TestCase("-#comment", typeof(HamlNodeHamlComment))]
         [TestCase("/comment", typeof(HamlNodeHtmlComment))]
         [TestCase("= Test", typeof(HamlNodeEval))]
-        public void ParseDocumentSource_DifferentLineTypes_CreatesCorrectTreeNodeTypes(string template, Type nodeType)
+        public void ParseHamlFile_DifferentLineTypes_CreatesCorrectTreeNodeTypes(string template, Type nodeType)
         {
-            var result = _parser.ParseDocumentSource(template, "");
+            var file = new HamlFileLexer().Read(template);
+            var result = _parser.ParseHamlFile(file);
             Assert.IsInstanceOf(nodeType, result.Children.First());
         }
 
@@ -45,17 +46,19 @@ namespace NHaml.Tests.Parser
         [TestCase("Test", 1)]
         [TestCase("Test\nTest", 3)]
         [TestCase("Test\n  Test", 1)]
-        public void ParseDocumentSource_SingleLevelTemplates_TreeContainsCorrectNoOfChildren(string template, int expectedChildrenCount)
+        public void ParseHamlFile_SingleLevelTemplates_TreeContainsCorrectNoOfChildren(string template, int expectedChildrenCount)
         {
-            var result = _parser.ParseDocumentSource(template, "");
+            var file = new HamlFileLexer().Read(template);
+            var result = _parser.ParseHamlFile(file);
             Assert.That(result.Children.Count(), Is.EqualTo(expectedChildrenCount));
         }
 
         [Test]
-        public void ParseDocumentSource_MultiLineTemplates_AddsLineBreakNode()
+        public void ParseHamlFile_MultiLineTemplates_AddsLineBreakNode()
         {
             const string template = "Line1\nLine2";
-            var result = _parser.ParseDocumentSource(template, "");
+            var file = new HamlFileLexer().Read(template);
+            var result = _parser.ParseHamlFile(file);
             Assert.That(result.Children.ToList()[1].Content, Is.EqualTo("\n"));
         }
 
@@ -64,24 +67,19 @@ namespace NHaml.Tests.Parser
         [TestCase("Test\n  Test\n  Test", 1)]
         [TestCase("Test\n  Test\n    Test", 1)]
         [TestCase("Test\n  Test\nTest", 3)]
-        public void ParseDocumentSource_MultiLevelTemplates_TreeContainsCorrectNoChildren(string template, int expectedChildren)
+        public void ParseHamlFile_MultiLevelTemplates_TreeContainsCorrectNoChildren(string template, int expectedChildren)
         {
-            var result = _parser.ParseDocumentSource(template, "");
+            var file = new HamlFileLexer().Read(template);
+            var result = _parser.ParseHamlFile(file);
             Assert.AreEqual(expectedChildren, result.Children.Count());
         }
 
-        public void ParseDocumentSource_FileNameSpecified_DocumentContainsMatchingFileName()
-        {
-            const string fileName = "FileName";
-            var result = _parser.ParseDocumentSource("", fileName);
-            Assert.That(result.Content, Is.EqualTo(fileName));
-        }
-
         [Test]
-        public void ParseDocumentSource_NestedContent_PlacesLineBreaksCorrectly()
+        public void ParseHamlFile_NestedContent_PlacesLineBreaksCorrectly()
         {
-            string template = "%p Line 1\n%p\n  Line 2\n%p Line 3";
-            var result = _parser.ParseDocumentSource(template, "");
+            const string template = "%p Line 1\n%p\n  Line 2\n%p Line 3";
+            var file = new HamlFileLexer().Read(template);
+            var result = _parser.ParseHamlFile(file);
 
             var children = result.Children.ToList();
 
@@ -92,10 +90,11 @@ namespace NHaml.Tests.Parser
         }
 
         [Test]
-        public void ParseDocumentSource_InlineContent_PlacesLineBreaksCorrectly()
+        public void ParseHamlFile_InlineContent_PlacesLineBreaksCorrectly()
         {
-            string template = "%p =DateTime.Now()";
-            var result = _parser.ParseDocumentSource(template, "");
+            const string template = "%p =DateTime.Now()";
+            var file = new HamlFileLexer().Read(template);
+            var result = _parser.ParseHamlFile(file);
 
             var children = result.Children.ToList();
             Assert.That(children[0].Children.Count(), Is.EqualTo(1));

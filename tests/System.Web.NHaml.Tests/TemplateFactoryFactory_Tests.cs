@@ -16,7 +16,7 @@ namespace NHaml.Tests
     [TestFixture]
     public class TemplateFactoryFactory_Tests
     {
-        private Mock<ITreeParser> _treeParserMock;
+        private Mock<IViewSourceParser> _viewSourceParserMock;
         private Mock<IDocumentWalker> _documentWalkerMock;
         private Mock<ITemplateFactoryCompiler> _templateCompilerMock;
         private Mock<ITemplateContentProvider> _templateContentProviderMock;
@@ -25,12 +25,13 @@ namespace NHaml.Tests
         [SetUp]
         public void Setup()
         {
-            _treeParserMock = new Mock<ITreeParser>();
+            _viewSourceParserMock = new Mock<IViewSourceParser>();
             _documentWalkerMock = new Mock<IDocumentWalker>();
             _templateCompilerMock = new Mock<ITemplateFactoryCompiler>();
             _templateContentProviderMock = new Mock<ITemplateContentProvider>();
-            _templateFactoryFactory = new TemplateFactoryFactory(_templateContentProviderMock.Object,
-                _treeParserMock.Object,
+            _templateFactoryFactory = new TemplateFactoryFactory(
+                _templateContentProviderMock.Object,
+                _viewSourceParserMock.Object,
                 _documentWalkerMock.Object,
                 _templateCompilerMock.Object,
                 new List<string>(),
@@ -43,7 +44,7 @@ namespace NHaml.Tests
             var viewSource = ViewSourceBuilder.Create("Test");            
             var hamlDocument = HamlDocumentBuilder.Create("MainFile",
                 new HamlNodeTextContainer(0, "Test"));
-            _treeParserMock.Setup(x => x.ParseViewSource(viewSource))
+            _viewSourceParserMock.Setup(x => x.Parse(viewSource))
                 .Returns(hamlDocument);
 
             var viewSourceCollection = new ViewSourceCollection {viewSource};
@@ -61,13 +62,13 @@ namespace NHaml.Tests
             var rootDocument = HamlDocumentBuilder.Create("MainFile",
                 new HamlNodeTextContainer(0, "Test"),
                 new HamlNodePartial(new HamlLine("SubDocument", HamlRuleEnum.Partial, "", 0)));
-            _treeParserMock.Setup(x => x.ParseViewSource(rootViewSource))
+            _viewSourceParserMock.Setup(x => x.Parse(rootViewSource))
                 .Returns(rootDocument);
 
             var childViewSource = ViewSourceBuilder.Create("SubDocument", "SubDocument");
             var childDocument = HamlDocumentBuilder.Create("SubDocument)",
                 new HamlNodeTextContainer(0, "Child Test"));
-            _treeParserMock.Setup(x => x.ParseViewSource(childViewSource))
+            _viewSourceParserMock.Setup(x => x.Parse(childViewSource))
                 .Returns(childDocument);
 
             var viewSourceList = new ViewSourceCollection { rootViewSource, childViewSource };
@@ -85,13 +86,13 @@ namespace NHaml.Tests
             var rootViewSource = ViewSourceBuilder.Create("MainFile");
             var rootDocument = HamlDocumentBuilder.Create("MainFile",
                 new HamlNodePartial(new HamlLine("", HamlRuleEnum.Partial, "", 0)));
-            _treeParserMock.Setup(x => x.ParseViewSource(rootViewSource))
+            _viewSourceParserMock.Setup(x => x.Parse(rootViewSource))
                 .Returns(rootDocument);
 
             var childViewSource = ViewSourceBuilder.Create("SubDocument", "SubDocument");
             var childDocument = HamlDocumentBuilder.Create("SubDocument)",
                 new HamlNodeTextContainer(0, "Child Test"));
-            _treeParserMock.Setup(x => x.ParseViewSource(childViewSource))
+            _viewSourceParserMock.Setup(x => x.Parse(childViewSource))
                 .Returns(childDocument);
 
             var viewSourceList = new ViewSourceCollection { rootViewSource, childViewSource };
@@ -109,14 +110,14 @@ namespace NHaml.Tests
             var rootViewSource = ViewSourceBuilder.Create("MainFile");
             var rootDocument = HamlDocumentBuilder.Create("MainFile",
                 new HamlNodePartial(new HamlLine(partialName, HamlRuleEnum.Partial, "", 0)));
-            _treeParserMock.Setup(x => x.ParseViewSource(rootViewSource))
+            _viewSourceParserMock.Setup(x => x.Parse(rootViewSource))
                 .Returns(rootDocument);
             var viewSourceList = new ViewSourceCollection { rootViewSource };
 
             var childViewSource = ViewSourceBuilder.Create("SubDocument", partialName);
             var childDocument = HamlDocumentBuilder.Create("SubDocument)",
                 new HamlNodeTextContainer(0, "Child Test"));
-            _treeParserMock.Setup(x => x.ParseViewSource(childViewSource))
+            _viewSourceParserMock.Setup(x => x.Parse(childViewSource))
                 .Returns(childDocument);
 
             _templateContentProviderMock.Setup(x => x.GetViewSource(partialName))

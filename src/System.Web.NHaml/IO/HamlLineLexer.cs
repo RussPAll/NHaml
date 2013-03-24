@@ -3,9 +3,9 @@ using System.Web.NHaml.Parser;
 
 namespace System.Web.NHaml.IO
 {
-    public class HamlLineLexer
+    public static class HamlLineLexer
     {
-        public IEnumerable<HamlLine> ParseHamlLine(string currentLine, int currentLineIndex)
+        public static IEnumerable<HamlLine> ParseHamlLine(string currentLine, int currentLineIndex)
         {
             int whiteSpaceIndex = 0;
 
@@ -27,7 +27,7 @@ namespace System.Web.NHaml.IO
             return result;
         }
 
-        private void ProcessInlineTags(HamlLine line, List<HamlLine> result)
+        private static void ProcessInlineTags(HamlLine line, List<HamlLine> result)
         {
             if (IsRuleThatAllowsInlineContent(line.HamlRule))
             {
@@ -50,7 +50,7 @@ namespace System.Web.NHaml.IO
             return hamlRule == HamlRuleEnum.Tag || hamlRule == HamlRuleEnum.DivId || hamlRule == HamlRuleEnum.DivClass;
         }
 
-        private string AddImplicitDivTag(string content)
+        private static string AddImplicitDivTag(string content)
         {
             if (content.Length > 1 && content.StartsWith("#{")) return content;
             if (content.Length > 0)
@@ -58,7 +58,7 @@ namespace System.Web.NHaml.IO
             return string.Empty;
         }
 
-        internal int GetEndOfTagIndex(string currentLine)
+        internal static int GetEndOfTagIndex(string currentLine)
         {
             if (currentLine.Length < 1 ||
                 "%.#".Contains(currentLine[0].ToString()) == false)

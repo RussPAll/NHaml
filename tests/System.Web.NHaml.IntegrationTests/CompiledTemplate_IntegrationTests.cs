@@ -5,7 +5,6 @@ using System.Web.NHaml.Parser;
 using System.Web.NHaml.TemplateBase;
 using System.Web.NHaml.TemplateResolution;
 using System.Web.NHaml.Walkers.CodeDom;
-using NHaml;
 using NUnit.Framework;
 using NHaml.Tests.Builders;
 using System.IO;
@@ -24,7 +23,7 @@ namespace NHaml.IntegrationTests
         {
             _templateFactoryFactory = new TemplateFactoryFactory(
                 new FileTemplateContentProvider(),
-                new HamlTreeParser(new HamlFileLexer()),
+                new ViewSourceParser(new HamlFileLexer(), new HamlTreeParser()), 
                 new HamlDocumentWalker(new CodeDomClassBuilder()),
                 new CodeDomTemplateCompiler(new CSharp2TemplateTypeBuilder()),
                 new List<string>(),

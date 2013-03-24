@@ -21,12 +21,12 @@ namespace NHamlSyntaxHighlighter
         internal static ClassificationTypeDefinition NHamlTagDefinition = null;
 
         [Export]
-        [Name("nhaml.id")]
+        [Name("nhaml.tagId")]
         [BaseDefinition("nhaml")]
         internal static ClassificationTypeDefinition NHamlIdDefinition = null;
 
         [Export]
-        [Name("nhaml.class")]
+        [Name("nhaml.tagClass")]
         [BaseDefinition("nhaml")]
         internal static ClassificationTypeDefinition NHamlClassDefinition = null;
 
@@ -56,19 +56,19 @@ namespace NHamlSyntaxHighlighter
         internal static ClassificationTypeDefinition NHamlPartialDefinition = null;
 
         [Export]
-        [Name("nhaml.literal")]
+        [Name("nhaml.textLiteral")]
         [BaseDefinition("nhaml")]
-        internal static ClassificationTypeDefinition NHamlLiteralDefinition = null;
+        internal static ClassificationTypeDefinition NHamlTextLiteralDefinition = null;
 
         [Export]
-        [Name("nhaml.variable")]
+        [Name("nhaml.textVariable")]
         [BaseDefinition("nhaml")]
-        internal static ClassificationTypeDefinition NHamlVariableDefinition = null;
+        internal static ClassificationTypeDefinition NHamlTextVariableDefinition = null;
 
         [Export]
-        [Name("nhaml.htmlAttribute")]
+        [Name("nhaml.htmlAttributeCollection")]
         [BaseDefinition("nhaml")]
-        internal static ClassificationTypeDefinition NHamlHtmlAttributeDefinition = null;
+        internal static ClassificationTypeDefinition NHamlHtmlAttributeCollectionDefinition = null;
 
     }
 }
