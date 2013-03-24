@@ -6,7 +6,7 @@ namespace System.Web.NHaml.Parser.Rules
     public class HamlNodeTextContainer : HamlNode
     {
         public HamlNodeTextContainer(HamlLine nodeLine)
-            : base(nodeLine)
+            : base(nodeLine, -1)
         {
             ParseFragments(nodeLine.Content);
         }
@@ -16,11 +16,11 @@ namespace System.Web.NHaml.Parser.Rules
             get { return true; }
         }
 
-        public HamlNodeTextContainer(int sourceFileLineNo, string content)
-            : base(sourceFileLineNo, content)
+        public HamlNodeTextContainer(int sourceFileLineNo, int sourceFileCharIndex, string content)
+            : base(sourceFileLineNo, sourceFileCharIndex, content)
         {
             if (string.IsNullOrEmpty(content))
-                AddChild(new HamlNodeTextLiteral(sourceFileLineNo, content));
+                AddChild(new HamlNodeTextLiteral(sourceFileLineNo, sourceFileCharIndex, content));
             else
                 ParseFragments(content);
         }
@@ -51,14 +51,14 @@ namespace System.Web.NHaml.Parser.Rules
                     {
                         index++;
                         return (result.Length > 3)
-                            ? new HamlNodeTextVariable(SourceFileLineNum, result)
-                            : (HamlNode)new HamlNodeTextLiteral(SourceFileLineNum, result);
+                            ? new HamlNodeTextVariable(SourceFileLineNum, -1, result)
+                            : (HamlNode)new HamlNodeTextLiteral(SourceFileLineNum, -1, result);
                     }
                 }
                 else if (IsTagToken(content, index))
                 {
                     if (isEscaped == false)
-                        return new HamlNodeTextLiteral(SourceFileLineNum, result);
+                        return new HamlNodeTextLiteral(SourceFileLineNum, -1, result);
                     result = RemoveEscapeCharacter(result) + content[index];
                 }
                 else
@@ -75,7 +75,7 @@ namespace System.Web.NHaml.Parser.Rules
             if (isInTag)
                 throw new HamlMalformedVariableException(result, SourceFileLineNum);
 
-            return new HamlNodeTextLiteral(SourceFileLineNum, result);
+            return new HamlNodeTextLiteral(SourceFileLineNum, -1, result);
         }
 
         private static string RemoveEscapeCharacter(string result)

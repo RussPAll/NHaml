@@ -2,8 +2,8 @@
 {
     public class HamlNodeTextLiteral : HamlNode
     {
-        public HamlNodeTextLiteral(int sourceLineNum, string content)
-            : base(sourceLineNum, content)
+        public HamlNodeTextLiteral(int sourceLineNum, int sourceFileCharIndex, string content)
+            : base(sourceLineNum, sourceFileCharIndex, content)
         { }
 
         protected override bool IsContentGeneratingTag

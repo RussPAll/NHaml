@@ -33,9 +33,9 @@ namespace NHaml.IntegrationTests
             var classBuilder = new CodeDomClassBuilder();
             var valueFragments = new List<HamlNode>
                                      {
-                                         new HamlNodeTextLiteral(-1, "value"),
-                                         new HamlNodeTextVariable(-1, "#{Variable}"),
-                                         new HamlNodeTextLiteral(-1, "value")
+                                         new HamlNodeTextLiteral(-1, 0, "value"),
+                                         new HamlNodeTextVariable(-1, 0, "#{Variable}"),
+                                         new HamlNodeTextLiteral(-1, 0, "value")
                                      };
             classBuilder.AppendAttributeNameValuePair("name",
                 valueFragments, '\"');
@@ -56,8 +56,8 @@ namespace NHaml.IntegrationTests
         public void AppendMultipleAttributeNameValuePairs_XHtml4_CompilesValidTemplate()
         {
             var classBuilder = new CodeDomClassBuilder();
-            classBuilder.AppendAttributeNameValuePair("name", new List<HamlNode> { new HamlNodeTextLiteral(-1, "value") }, '\"');
-            classBuilder.AppendAttributeNameValuePair("name", new List<HamlNode> { new HamlNodeTextLiteral(-1, "value") }, '\"');
+            classBuilder.AppendAttributeNameValuePair("name", new List<HamlNode> { new HamlNodeTextLiteral(-1, 0, "value") }, '\"');
+            classBuilder.AppendAttributeNameValuePair("name", new List<HamlNode> { new HamlNodeTextLiteral(-1, 0, "value") }, '\"');
             string templateSource = classBuilder.Build(ClassName);
             var result = GenerateTemplateFromSource(templateSource);
 

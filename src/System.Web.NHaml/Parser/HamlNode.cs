@@ -7,23 +7,25 @@ namespace System.Web.NHaml.Parser
 {
     public abstract class HamlNode
     {
+        public readonly int SourceFileCharIndex;
+        public readonly int SourceFileLineNum;
+        public readonly int SourceFileCharCount;
+        public readonly string Content;
         private readonly IList<HamlNode> _children = new List<HamlNode>();
         private readonly HamlLine _line;
 
-        protected HamlNode(HamlLine nodeLine)
+        protected HamlNode(HamlLine nodeLine, int sourceFileCharIndex)
         {
             _line = nodeLine;
             Content = nodeLine.Content;
             SourceFileLineNum = _line.SourceFileLineNo;
+            SourceFileCharIndex = sourceFileCharIndex;
+            SourceFileCharCount = nodeLine.Content.Length;
         }
 
-        protected HamlNode(int sourceFileLineNum, string content)
-            : this(new HamlLine(content, HamlRuleEnum.Unknown, "", sourceFileLineNum, true))
+        protected HamlNode(int sourceFileLineNum, int sourceFileCharIndex, string content)
+            : this(new HamlLine(content, HamlRuleEnum.Unknown, "", sourceFileLineNum, true), sourceFileCharIndex)
         { }
-
-        protected abstract bool IsContentGeneratingTag { get; }
-
-        public string Content { get; private set; }
 
         public string Indent
         {
@@ -35,17 +37,10 @@ namespace System.Web.NHaml.Parser
             get { return Children.Any(x => x.IsInline == false); }
         }
 
-        protected bool IsInline
-        {
-            get { return _line.IsInline; }
-        }
-
         public int IndentCount
         {
             get { return _line.HamlRule == HamlRuleEnum.Document ? -1 : _line.IndentCount; }
         }
-
-        public int SourceFileLineNum { get; private set; }
 
         public IEnumerable<HamlNode> Children
         {
@@ -65,22 +60,6 @@ namespace System.Web.NHaml.Parser
         public HamlNode Previous { get; private set; }
         public HamlNode Next { get; private set; }
         public HamlNode Parent { get; private set; }
-
-        private HamlNode PreviousNonWhitespaceNode()
-        {
-            var node = Previous;
-            while (node != null && node.IsWhitespaceNode())
-                node = node.Previous;
-            return node;
-        }
-
-        private HamlNode NextNonWhitespaceNode()
-        {
-            var node = Next;
-            while (node != null && node.IsWhitespaceNode())
-                node = node.Next;
-            return node;
-        }
 
         public bool IsWhitespaceNode()
         {
@@ -115,7 +94,7 @@ namespace System.Web.NHaml.Parser
                 var nextNonWhitespaceNode = NextNonWhitespaceNode();
                 if (nextNonWhitespaceNode != null && nextNonWhitespaceNode.IsSurroundingWhitespaceRemoved())
                     return true;
-                
+
                 if (nextNonWhitespaceNode == null)
                 {
                     var parentNode = ParentNonWhitespaceNode();
@@ -124,6 +103,57 @@ namespace System.Web.NHaml.Parser
                 }
                 return false;
             }
+        }
+
+        public void AppendInnerTagNewLine()
+        {
+            if (IsContentGeneratingTag)
+                AddChild(new HamlNodeTextContainer(new HamlLine("\n", HamlRuleEnum.PlainText, "", SourceFileLineNum)));
+        }
+
+        public void AppendPostTagNewLine(HamlNode childNode, int lineNo)
+        {
+            if (childNode.IsContentGeneratingTag)
+                AddChild(new HamlNodeTextContainer(new HamlLine("\n", HamlRuleEnum.PlainText, "", lineNo)));
+        }
+
+        public HamlNodePartial GetNextUnresolvedPartial()
+        {
+            foreach (var childNode in Children)
+            {
+                var partialNode = childNode as HamlNodePartial;
+                if (partialNode != null && partialNode.IsResolved == false)
+                    return (HamlNodePartial)childNode;
+
+                var childPartialNode = childNode.GetNextUnresolvedPartial();
+                if (childPartialNode != null)
+                    return childPartialNode;
+            }
+
+            return null;
+        }
+
+        protected abstract bool IsContentGeneratingTag { get; }
+
+        protected bool IsInline
+        {
+            get { return _line.IsInline; }
+        }
+
+        private HamlNode PreviousNonWhitespaceNode()
+        {
+            var node = Previous;
+            while (node != null && node.IsWhitespaceNode())
+                node = node.Previous;
+            return node;
+        }
+
+        private HamlNode NextNonWhitespaceNode()
+        {
+            var node = Next;
+            while (node != null && node.IsWhitespaceNode())
+                node = node.Next;
+            return node;
         }
 
         private bool IsInternalWhitespaceTrimmed()
@@ -144,34 +174,6 @@ namespace System.Web.NHaml.Parser
             while (parentNode != null && parentNode.IsWhitespaceNode())
                 parentNode = parentNode.Parent;
             return parentNode;
-        }
-
-        public void AppendInnerTagNewLine()
-        {
-            if (IsContentGeneratingTag)
-                AddChild(new HamlNodeTextContainer(new HamlLine("\n", HamlRuleEnum.PlainText, "", SourceFileLineNum, false)));
-        }
-
-        public void AppendPostTagNewLine(HamlNode childNode, int lineNo)
-        {
-            if (childNode.IsContentGeneratingTag)
-                AddChild(new HamlNodeTextContainer(new HamlLine("\n", HamlRuleEnum.PlainText, "", lineNo, false)));
-        }
-
-        public HamlNodePartial GetNextUnresolvedPartial()
-        {
-            foreach (var childNode in Children)
-            {
-                var partialNode = childNode as HamlNodePartial;
-                if (partialNode != null && partialNode.IsResolved == false)
-                    return (HamlNodePartial)childNode;
-
-                var childPartialNode = childNode.GetNextUnresolvedPartial();
-                if (childPartialNode != null)
-                    return childPartialNode;
-            }
-
-            return null;
         }
     }
 }

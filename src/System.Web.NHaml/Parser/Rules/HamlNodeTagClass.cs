@@ -2,8 +2,8 @@
 {
     public class HamlNodeTagClass : HamlNode
     {
-        public HamlNodeTagClass(int sourceFileLineNo, string className)
-            : base(sourceFileLineNo, className)
+        public HamlNodeTagClass(int sourceFileLineNo, int sourceFileCharIndex, string className)
+            : base(sourceFileLineNo, sourceFileCharIndex, className)
         { }
 
         protected override bool IsContentGeneratingTag

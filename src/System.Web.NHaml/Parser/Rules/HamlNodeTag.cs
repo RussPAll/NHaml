@@ -15,7 +15,7 @@ namespace System.Web.NHaml.Parser.Rules
         private WhitespaceRemoval _whitespaceRemoval = WhitespaceRemoval.None;
 
         public HamlNodeTag(IO.HamlLine nodeLine)
-            : base(nodeLine)
+            : base(nodeLine, -1)
         {
             IsSelfClosing = false;
             int pos = 0;
@@ -71,7 +71,7 @@ namespace System.Web.NHaml.Parser.Rules
                 if (attributes[attributes.Length - 1] != attributeEndChar)
                     throw new HamlMalformedTagException(
                         "Malformed HTML Attributes collection \"" + attributes + "\".", SourceFileLineNum);
-                AddChild(new HamlNodeHtmlAttributeCollection(SourceFileLineNum, attributes));
+                AddChild(new HamlNodeHtmlAttributeCollection(SourceFileLineNum, -1, attributes));
 
                 pos++;
             }
@@ -125,7 +125,7 @@ namespace System.Web.NHaml.Parser.Rules
             if (pos >= content.Length) return;
 
             string contentLine = content.Substring(pos).TrimStart();
-            AddChild(new HamlNodeTextContainer(SourceFileLineNum, contentLine));
+            AddChild(new HamlNodeTextContainer(SourceFileLineNum, -1, contentLine));
         }
 
         public string TagName
@@ -156,7 +156,7 @@ namespace System.Web.NHaml.Parser.Rules
         {
             pos++;
             string tagId = GetHtmlToken(content, ref pos);
-            var newTag = new HamlNodeTagId(SourceFileLineNum, tagId);
+            var newTag = new HamlNodeTagId(SourceFileLineNum, -1, tagId);
             AddChild(newTag);
         }
 
@@ -164,7 +164,7 @@ namespace System.Web.NHaml.Parser.Rules
         {
             pos++;
             string className = GetHtmlToken(content, ref pos);
-            var newTag = new HamlNodeTagClass(SourceFileLineNum, className);
+            var newTag = new HamlNodeTagClass(SourceFileLineNum, -1, className);
             AddChild(newTag);
         }
 

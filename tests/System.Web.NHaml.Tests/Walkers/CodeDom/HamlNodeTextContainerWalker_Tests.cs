@@ -17,7 +17,7 @@ namespace NHaml.Tests.Walkers.CodeDom
 
         private class BogusHamlNode : HamlNode
         {
-            public BogusHamlNode() : base(0, "") { }
+            public BogusHamlNode() : base(0, 0, "") { }
 
             protected override bool IsContentGeneratingTag
             {

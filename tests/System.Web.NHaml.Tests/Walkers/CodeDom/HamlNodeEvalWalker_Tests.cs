@@ -38,7 +38,7 @@ namespace NHaml.Tests.Walkers.CodeDom
         {
             string codeSnippet = "1+1";
             var node = new HamlNodeEval(new HamlLine(codeSnippet, HamlRuleEnum.PlainText, "", -1));
-            node.AddChild(new HamlNodeTextContainer(0, ""));
+            node.AddChild(new HamlNodeTextContainer(0, 0, ""));
 
             Assert.Throws<HamlInvalidChildNodeException>(() => _walker.Walk(node));
         }

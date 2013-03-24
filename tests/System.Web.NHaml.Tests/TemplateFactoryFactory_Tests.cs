@@ -43,7 +43,7 @@ namespace NHaml.Tests
         {
             var viewSource = ViewSourceBuilder.Create("Test");            
             var hamlDocument = HamlDocumentBuilder.Create("MainFile",
-                new HamlNodeTextContainer(0, "Test"));
+                new HamlNodeTextContainer(0, -1, "Test"));
             _viewSourceParserMock.Setup(x => x.Parse(viewSource))
                 .Returns(hamlDocument);
 
@@ -60,14 +60,14 @@ namespace NHaml.Tests
         {
             var rootViewSource = ViewSourceBuilder.Create("MainFile");
             var rootDocument = HamlDocumentBuilder.Create("MainFile",
-                new HamlNodeTextContainer(0, "Test"),
+                new HamlNodeTextContainer(0, -1, "Test"),
                 new HamlNodePartial(new HamlLine("SubDocument", HamlRuleEnum.Partial, "", 0)));
             _viewSourceParserMock.Setup(x => x.Parse(rootViewSource))
                 .Returns(rootDocument);
 
             var childViewSource = ViewSourceBuilder.Create("SubDocument", "SubDocument");
             var childDocument = HamlDocumentBuilder.Create("SubDocument)",
-                new HamlNodeTextContainer(0, "Child Test"));
+                new HamlNodeTextContainer(0, -1, "Child Test"));
             _viewSourceParserMock.Setup(x => x.Parse(childViewSource))
                 .Returns(childDocument);
 
@@ -91,7 +91,7 @@ namespace NHaml.Tests
 
             var childViewSource = ViewSourceBuilder.Create("SubDocument", "SubDocument");
             var childDocument = HamlDocumentBuilder.Create("SubDocument)",
-                new HamlNodeTextContainer(0, "Child Test"));
+                new HamlNodeTextContainer(0, -1, "Child Test"));
             _viewSourceParserMock.Setup(x => x.Parse(childViewSource))
                 .Returns(childDocument);
 
@@ -116,7 +116,7 @@ namespace NHaml.Tests
 
             var childViewSource = ViewSourceBuilder.Create("SubDocument", partialName);
             var childDocument = HamlDocumentBuilder.Create("SubDocument)",
-                new HamlNodeTextContainer(0, "Child Test"));
+                new HamlNodeTextContainer(0, -1, "Child Test"));
             _viewSourceParserMock.Setup(x => x.Parse(childViewSource))
                 .Returns(childDocument);
 

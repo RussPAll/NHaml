@@ -27,7 +27,7 @@ namespace NHaml.Tests.Walkers.CodeDom
         [Test]
         public void Walk_InvalidNodeType_ThrowsInvalidCastException()
         {
-            var node = new HamlNodeTextContainer(0, "");
+            var node = new HamlNodeTextContainer(0, 0, "");
 
             Assert.Throws<InvalidCastException>(() => _walker.Walk(node));
         }
@@ -48,7 +48,7 @@ namespace NHaml.Tests.Walkers.CodeDom
         {
             string codeSnippet = "int c = 1";
             var node = new HamlNodeCode(new HamlLine(codeSnippet, HamlRuleEnum.Code, "", -1));
-            node.AddChild(new HamlNodeTextContainer(-1, ""));
+            node.AddChild(new HamlNodeTextContainer(-1, 0, ""));
 
             _walker.Walk(node);
 
@@ -60,7 +60,7 @@ namespace NHaml.Tests.Walkers.CodeDom
         {
             string codeSnippet = "int c = 1";
             var node = new HamlNodeCode(new HamlLine(codeSnippet, HamlRuleEnum.Code, "", -1));
-            node.AddChild(new HamlNodeTextContainer(-1, ""));
+            node.AddChild(new HamlNodeTextContainer(-1, 0, ""));
 
             _walker.Walk(node);
 
@@ -71,7 +71,7 @@ namespace NHaml.Tests.Walkers.CodeDom
         public void Walk_ChildNode_DoesNotThrowInvalidChildNodeException()
         {
             var node = new HamlNodeCode(new HamlLine("1+1", HamlRuleEnum.Code, "", -1));
-            node.AddChild(new HamlNodeTextContainer(0, ""));
+            node.AddChild(new HamlNodeTextContainer(0, 0, ""));
 
             Assert.DoesNotThrow(() => _walker.Walk(node));
         }
@@ -81,7 +81,7 @@ namespace NHaml.Tests.Walkers.CodeDom
         {
             const string dummyText = "Hello";
             var node = new HamlNodeCode(new HamlLine("if (true)", HamlRuleEnum.Code, "", -1));
-            node.AddChild(new HamlNodeTextContainer(0, dummyText));
+            node.AddChild(new HamlNodeTextContainer(0, 0, dummyText));
             var classBuilder = new ClassBuilderMock();
 
             var walker = new HamlNodeCodeWalker(classBuilder, new HamlHtmlOptions());

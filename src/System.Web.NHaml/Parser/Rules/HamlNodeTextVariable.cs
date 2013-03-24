@@ -4,8 +4,8 @@ namespace System.Web.NHaml.Parser.Rules
 {
     public class HamlNodeTextVariable : HamlNode
     {
-        public HamlNodeTextVariable(int sourceLineNum, string content)
-            : base(sourceLineNum, content)
+        public HamlNodeTextVariable(int sourceLineNum, int sourceFileCharIndex, string content)
+            : base(sourceLineNum, sourceFileCharIndex, content)
         { }
 
         protected override bool IsContentGeneratingTag

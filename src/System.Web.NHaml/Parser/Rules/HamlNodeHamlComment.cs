@@ -3,7 +3,7 @@
     public class HamlNodeHamlComment : HamlNode
     {
         public HamlNodeHamlComment(IO.HamlLine nodeLine)
-            : base(nodeLine)
+            : base(nodeLine, -1)
         { }
 
         protected override bool IsContentGeneratingTag

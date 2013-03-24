@@ -26,7 +26,7 @@ namespace NHaml.Tests.Walkers.CodeDom
         [Test]
         public void Walk_InvalidNodeType_ThrowsInvalidCastException()
         {
-            var node = new HamlNodeTextContainer(0, "");
+            var node = new HamlNodeTextContainer(0, 0, "");
 
             Assert.Throws<InvalidCastException>(() => _walker.Walk(node));
         }
@@ -45,7 +45,7 @@ namespace NHaml.Tests.Walkers.CodeDom
         public void Walk_ValidNodeWithChildren_Throws()
         {
             var node = new HamlNodeDocType(new HamlLine("", HamlRuleEnum.DocType, "", -1));
-            node.AddChild(new HamlNodeTextContainer(-1, ""));
+            node.AddChild(new HamlNodeTextContainer(-1, 0, ""));
 
             Assert.Throws<HamlInvalidChildNodeException>(() => _walker.Walk(node));
         }

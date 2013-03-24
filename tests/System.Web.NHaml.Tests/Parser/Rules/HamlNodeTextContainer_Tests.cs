@@ -32,7 +32,7 @@ namespace NHaml.Tests.Parser.Rules
         [TestCase("}", typeof(HamlNodeTextLiteral))]
         public void Children_FirstChildIsOfCorrectType(string line, Type expectedType)
         {
-            var node = new HamlNodeTextContainer(0, line);
+            var node = new HamlNodeTextContainer(0, 0, line);
             Assert.That(node.Children.First(), Is.InstanceOf(expectedType));
             Assert.That(node.Children.Count(), Is.EqualTo(1));
         }
@@ -50,7 +50,7 @@ namespace NHaml.Tests.Parser.Rules
         [TestCase("\\\\#{Variable1}", typeof(HamlNodeTextLiteral), typeof(HamlNodeTextVariable))]
         public void Children_MultipleFragments_ChildrenAreOfCorrectType(string line, Type node1Type, Type node2Type)
         {
-            var node = new HamlNodeTextContainer(0, line);
+            var node = new HamlNodeTextContainer(0, 0, line);
             Assert.That(node.Children.First(), Is.InstanceOf(node1Type));
             Assert.That(new List<HamlNode>(node.Children)[1], Is.InstanceOf(node2Type));
         }

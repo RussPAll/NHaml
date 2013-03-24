@@ -12,7 +12,7 @@ namespace NHaml.Tests.Parser
     public class HamlNode_Tests
     {
         private class HamlNodeDummy : HamlNode {
-            public HamlNodeDummy() : base(0, "") { }
+            public HamlNodeDummy() : base(0, 0, "") { }
 
             protected override bool IsContentGeneratingTag
             {
@@ -140,7 +140,7 @@ namespace NHaml.Tests.Parser
         [Test]
         public void GetNextUnresolvedPartial_PartialIsAGrandchildNode_ReturnsPartial()
         {
-            var textContainerNode = new HamlNodeTextContainer(0, "Test content");
+            var textContainerNode = new HamlNodeTextContainer(0, 0, "Test content");
             var partial = new HamlNodePartial(new HamlLine("", HamlRuleEnum.Partial, "", -1));
             textContainerNode.AddChild(partial);
 
