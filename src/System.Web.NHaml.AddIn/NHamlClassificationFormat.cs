@@ -8,30 +8,16 @@ namespace NHamlSyntaxHighlighter
     class NHamlClassificationFormat
     {
         [Export(typeof(EditorFormatDefinition))]
-        [ClassificationType(ClassificationTypeNames = "nhaml.code")]
-        [Name("nhaml.code")]
+        [ClassificationType(ClassificationTypeNames = "nhaml")]
+        [Name("nhaml")]
         [UserVisible(true)]
         [Order(Before = Priority.Default)]
-        sealed class NHamlCode : ClassificationFormatDefinition
+        sealed class NHamlText : ClassificationFormatDefinition
         {
-            public NHamlCode()
+            public NHamlText()
             {
-                DisplayName = "Code";
+                DisplayName = "NHaml";
                 ForegroundColor = Colors.BlueViolet;
-            }
-        }
-
-        [Export(typeof(EditorFormatDefinition))]
-        [ClassificationType(ClassificationTypeNames = "nhaml.tag")]
-        [Name("nhaml.tag")]
-        [UserVisible(true)]
-        [Order(Before = Priority.Default)]
-        sealed class NHamlTag : ClassificationFormatDefinition
-        {
-            public NHamlTag()
-            {
-                DisplayName = "Tag";
-                ForegroundColor = Colors.Blue;
             }
         }
     }
