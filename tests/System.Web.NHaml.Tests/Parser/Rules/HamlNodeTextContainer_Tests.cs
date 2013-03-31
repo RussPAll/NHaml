@@ -19,7 +19,7 @@ namespace NHaml.Tests.Parser.Rules
         [TestCase("\t", true)]
         public void IsWhitespace_ReturnsCorrectResult(string whiteSpace, bool expectedResult)
         {
-            var node = new HamlNodeTextContainer(new HamlLine(whiteSpace, HamlRuleEnum.PlainText, indent: "", sourceFileLineNum: 0));
+            var node = new HamlNodeTextContainer(new HamlLine(whiteSpace, HamlRuleEnum.PlainText, indent: ""));
             Assert.That(node.IsWhitespace(), Is.EqualTo(expectedResult));
         }
 
@@ -32,14 +32,14 @@ namespace NHaml.Tests.Parser.Rules
         [TestCase("}", typeof(HamlNodeTextLiteral))]
         public void Children_FirstChildIsOfCorrectType(string line, Type expectedType)
         {
-            var node = new HamlNodeTextContainer(0, 0, line);
+            var node = new HamlNodeTextContainer(new HamlSourceFileMetrics(0, 0, 0), line);
             Assert.That(node.Children.First(), Is.InstanceOf(expectedType));
             Assert.That(node.Children.Count(), Is.EqualTo(1));
         }
 
         public void Children_EmptyString_NoChildren()
         {
-            var node = new HamlNodeTextContainer(new HamlLine("", HamlRuleEnum.PlainText, indent: "", sourceFileLineNum: 0));
+            var node = new HamlNodeTextContainer(new HamlLine("", HamlRuleEnum.PlainText, indent: ""));
             Assert.That(node.Children.Count(), Is.EqualTo(0));
         }
 
@@ -50,7 +50,7 @@ namespace NHaml.Tests.Parser.Rules
         [TestCase("\\\\#{Variable1}", typeof(HamlNodeTextLiteral), typeof(HamlNodeTextVariable))]
         public void Children_MultipleFragments_ChildrenAreOfCorrectType(string line, Type node1Type, Type node2Type)
         {
-            var node = new HamlNodeTextContainer(0, 0, line);
+            var node = new HamlNodeTextContainer(new HamlSourceFileMetrics(0, 0, 0), line);
             Assert.That(node.Children.First(), Is.InstanceOf(node1Type));
             Assert.That(new List<HamlNode>(node.Children)[1], Is.InstanceOf(node2Type));
         }
@@ -58,14 +58,14 @@ namespace NHaml.Tests.Parser.Rules
         [Test]
         public void Children_EscapedContent_RemovesEscapeCharacter()
         {
-            var node = new HamlNodeTextContainer(new HamlLine("\\#{variable}", HamlRuleEnum.PlainText, indent: "", sourceFileLineNum: 0));
+            var node = new HamlNodeTextContainer(new HamlLine("\\#{variable}", HamlRuleEnum.PlainText, indent: ""));
             Assert.That(node.Children.First().Content, Is.EqualTo("#{variable}"));
         }
 
         [Test]
         public void Children_IncompleteVariableReference_ThrowsException()
         {
-            var line = new HamlLine("#{variable", HamlRuleEnum.PlainText, indent: "", sourceFileLineNum: 0);
+            var line = new HamlLine("#{variable", HamlRuleEnum.PlainText, indent: "");
             Assert.Throws<HamlMalformedVariableException>(() => new HamlNodeTextContainer(line));
         }
     }

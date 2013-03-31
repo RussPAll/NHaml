@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.NHaml.Compilers;
+using System.Web.NHaml.IO;
 using System.Web.NHaml.Parser;
 using System.Web.NHaml.Parser.Rules;
 
@@ -52,7 +53,7 @@ namespace System.Web.NHaml.Walkers.CodeDom
                                from attrFragment in attr.Children
                                select (HamlNodeTextContainer)attrFragment).ToList();
 
-            classValues.AddRange(nodeTag.Children.OfType<HamlNodeTagClass>().Select(x => new HamlNodeTextContainer(x.SourceFileLineNum, -1, x.Content)));
+            classValues.AddRange(nodeTag.Children.OfType<HamlNodeTagClass>().Select(x => new HamlNodeTextContainer(x.Metrics, x.Content)));
             return classValues;
         }
 
@@ -63,7 +64,7 @@ namespace System.Web.NHaml.Walkers.CodeDom
             var classFragments = new List<HamlNode>();
             for (int index = 0; index < classTextContainers.Count; index++)
             {
-                if (index > 0) classFragments.Add(new HamlNodeTextLiteral(-1, -1, " "));
+                if (index > 0) classFragments.Add(new HamlNodeTextLiteral(new HamlSourceFileMetrics(-1, -1, 1), " "));
                 classFragments.AddRange(classTextContainers[index].Children);
             }
 
@@ -85,7 +86,7 @@ namespace System.Web.NHaml.Walkers.CodeDom
                             select (HamlNodeTextContainer)attrFragment).ToList();
 
             var idTag = nodeTag.Children.LastOrDefault(x => x.GetType() == typeof(HamlNodeTagId));
-            if (idTag != null) idValues.Insert(0, new HamlNodeTextContainer(idTag.SourceFileLineNum, -1, idTag.Content));
+            if (idTag != null) idValues.Insert(0, new HamlNodeTextContainer(idTag.Metrics, idTag.Content));
             return idValues;
         }
 
@@ -96,7 +97,7 @@ namespace System.Web.NHaml.Walkers.CodeDom
             var idFragments = new List<HamlNode>();
             for (int index = 0; index < idValues.Count; index++)
             {
-                if (index > 0) idFragments.Add(new HamlNodeTextLiteral(-1, -1, "_"));
+                if (index > 0) idFragments.Add(new HamlNodeTextLiteral(new HamlSourceFileMetrics(-1, -1, 1), "_"));
                 idFragments.AddRange(idValues[index].Children);
             }
 

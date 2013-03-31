@@ -1,4 +1,5 @@
 ﻿using System.Web.NHaml.Compilers;
+using System.Web.NHaml.IO;
 using System.Web.NHaml.Parser.Rules;
 using System.Web.NHaml.Walkers.Exceptions;
 
@@ -6,7 +7,7 @@ namespace System.Web.NHaml.Walkers.CodeDom
 {
     public static class HamlWalkerFactory
     {
-        public static HamlNodeWalker GetNodeWalker(Type nodeType, int sourceFileLineNo, ITemplateClassBuilder classBuilder, HamlHtmlOptions options)
+        public static HamlNodeWalker GetNodeWalker(Type nodeType, HamlSourceFileMetrics metrics, ITemplateClassBuilder classBuilder, HamlHtmlOptions options)
         {
             if (nodeType == typeof(HamlNodeTagId)
                 || nodeType == typeof(HamlNodeTagClass)
@@ -32,7 +33,7 @@ namespace System.Web.NHaml.Walkers.CodeDom
             if (nodeType == typeof(HamlNodePartial))
                 return new HamlPartialWalker(classBuilder, options);
             
-            throw new HamlUnknownNodeTypeException(nodeType, sourceFileLineNo);
+            throw new HamlUnknownNodeTypeException(nodeType, metrics);
         }
     }
 }

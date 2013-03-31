@@ -17,7 +17,7 @@ namespace System.Web.NHaml.Walkers.CodeDom
         {
             var attributeCollectionNode = node as HamlNodeHtmlAttributeCollection;
             if (attributeCollectionNode == null)
-                throw new System.InvalidCastException("HamlNodeHtmlAttributeCollectionWalker requires that HamlNode object be of type HamlNodeHtmlAttributeCollection.");
+                throw new InvalidCastException("HamlNodeHtmlAttributeCollectionWalker requires that HamlNode object be of type HamlNodeHtmlAttributeCollection.");
 
             foreach (HamlNodeHtmlAttribute childNode in attributeCollectionNode.Children)
             {
@@ -32,7 +32,7 @@ namespace System.Web.NHaml.Walkers.CodeDom
             var attributeNode = childNode as HamlNodeHtmlAttribute;
             if (attributeNode == null)
                 throw new HamlMalformedTagException("Unexpected " + childNode.GetType().FullName + " tag in AttributeCollection node",
-                    childNode.SourceFileLineNum);
+                    childNode.Metrics);
 
             var valueFragments = attributeNode.Children.Any(ch => ch is HamlNodeTextContainer)
                                      ? attributeNode.Children.First().Children

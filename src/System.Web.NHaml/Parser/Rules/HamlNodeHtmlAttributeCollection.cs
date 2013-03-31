@@ -1,17 +1,18 @@
 ﻿using System.Linq;
 using System.Web.NHaml.Crosscutting;
+using System.Web.NHaml.IO;
 using System.Web.NHaml.Parser.Exceptions;
 
 namespace System.Web.NHaml.Parser.Rules
 {
     public class HamlNodeHtmlAttributeCollection : HamlNode
     {
-        public HamlNodeHtmlAttributeCollection(int sourceFileLineNo, int sourceFileCharIndex, string attributeCollection)
-            : base(sourceFileLineNo, sourceFileCharIndex, 0, attributeCollection)
+        public HamlNodeHtmlAttributeCollection(HamlSourceFileMetrics metrics, string attributeCollection)
+            : base(metrics, attributeCollection)
             
         {
             if (Content[0] != '(' && Content[0] != '{')
-                throw new HamlMalformedTagException("AttributeCollection tag must start with an opening bracket or curly bracket.", SourceFileLineNum);
+                throw new HamlMalformedTagException("AttributeCollection tag must start with an opening bracket or curly bracket.", Metrics);
 
             ParseChildren(attributeCollection);
         }
@@ -30,7 +31,7 @@ namespace System.Web.NHaml.Parser.Rules
                 int startIndex = index;
                 string nameValuePair = GetNextAttributeToken(attributeCollection, closingBracketChar, ref index);
                 if (!string.IsNullOrEmpty(nameValuePair))
-                    AddChild(new HamlNodeHtmlAttribute(SourceFileLineNum, startIndex + SourceFileCharIndex, nameValuePair));
+                    AddChild(new HamlNodeHtmlAttribute(Metrics.SubSpan(startIndex, nameValuePair.Length), nameValuePair));
                 index++;
             }
         }

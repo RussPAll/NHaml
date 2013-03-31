@@ -1,4 +1,5 @@
 ﻿using System.Web.NHaml.Crosscutting;
+using System.Web.NHaml.IO;
 using System.Web.NHaml.Parser.Exceptions;
 
 namespace System.Web.NHaml.Parser.Rules
@@ -8,8 +9,8 @@ namespace System.Web.NHaml.Parser.Rules
         private string _name = string.Empty;
         private char _quoteChar = '\'';
 
-        public HamlNodeHtmlAttribute(int sourceFileLineNo, int sourceFileCharIndex, string nameValuePair)
-            : base(sourceFileLineNo, sourceFileCharIndex, 0, nameValuePair)
+        public HamlNodeHtmlAttribute(HamlSourceFileMetrics metrics, string nameValuePair)
+            : base(metrics, nameValuePair)
         {
             int index = 0;
             ParseName(ref index);
@@ -22,7 +23,7 @@ namespace System.Web.NHaml.Parser.Rules
 
             string value = Content.Substring(index + 1);
 
-            AddChild(new HamlNodeTextContainer(SourceFileLineNum, index + SourceFileCharIndex + 1, GetValue(value)));
+            AddChild(new HamlNodeTextContainer(Metrics.SubSpan(index + 1, value.Length), GetValue(value)));
         }
 
         protected override bool IsContentGeneratingTag
@@ -44,7 +45,7 @@ namespace System.Web.NHaml.Parser.Rules
         {
             string result = HtmlStringHelper.ExtractTokenFromTagString(Content, ref index, new[] { '=', '\0' });
             if (string.IsNullOrEmpty(result))
-                throw new HamlMalformedTagException("Malformed HTML attribute \"" + Content + "\"", SourceFileLineNum);
+                throw new HamlMalformedTagException("Malformed HTML attribute \"" + Content + "\"", Metrics);
 
             _name = result.TrimEnd('=');
         }

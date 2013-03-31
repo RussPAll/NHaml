@@ -13,7 +13,7 @@ namespace NHaml.Tests.Walkers.CodeDom
     {
         private class BogusHamlNode : HamlNode
         {
-            public BogusHamlNode() : base(0, 0, 0, "") { }
+            public BogusHamlNode() : base(new HamlSourceFileMetrics(0, 0, -1), (string) "") { }
 
             protected override bool IsContentGeneratingTag
             {
@@ -45,7 +45,7 @@ namespace NHaml.Tests.Walkers.CodeDom
         {
             // Arrange
             string comment = "Comment";
-            var node = new HamlNodeHtmlComment(new HamlLine(comment, HamlRuleEnum.HtmlComment, indent: "", sourceFileLineNum: 0));
+            var node = new HamlNodeHtmlComment(new HamlLine(comment, HamlRuleEnum.HtmlComment, indent: ""));
 
             // Act
             _walker.Walk(node);
@@ -58,8 +58,8 @@ namespace NHaml.Tests.Walkers.CodeDom
         public void Walk_NestedTags_AppendsCorrectTags()
         {
             // Arrange
-            HamlLine nestedText = new HamlLine("Hello world", HamlRuleEnum.PlainText, indent: "  ", sourceFileLineNum: 0, isInline: true);
-            var tagNode = new HamlNodeHtmlComment(new HamlLine("", HamlRuleEnum.HtmlComment, indent: "", sourceFileLineNum: 0));
+            HamlLine nestedText = new HamlLine("Hello world", HamlRuleEnum.PlainText, indent: "  ", isInline: true);
+            var tagNode = new HamlNodeHtmlComment(new HamlLine("", HamlRuleEnum.HtmlComment, indent: ""));
             tagNode.AddChild(new HamlNodeTextContainer(nestedText));
 
             // Act

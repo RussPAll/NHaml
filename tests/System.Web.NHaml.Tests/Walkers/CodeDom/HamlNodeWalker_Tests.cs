@@ -33,7 +33,7 @@ namespace NHaml.Tests.Walkers.CodeDom
         {
             const string testText = "Hello world";
             var document = HamlDocumentBuilder.Create("",
-                new HamlNodeTextContainer(new HamlLine(testText, HamlRuleEnum.PlainText, indent: "", sourceFileLineNum: 0)));
+                new HamlNodeTextContainer(new HamlLine(testText, HamlRuleEnum.PlainText, indent: "")));
             _walker.Walk(document);
 
             Assert.That(_classBuilderMock.Build(""), Is.StringContaining(testText));
@@ -44,7 +44,7 @@ namespace NHaml.Tests.Walkers.CodeDom
         {
             const string tagName = "div";
             var document = HamlDocumentBuilder.Create("",
-                new HamlNodeTag(new HamlLine(tagName, HamlRuleEnum.PlainText, indent: "", sourceFileLineNum: 0)));
+                new HamlNodeTag(new HamlLine(tagName, HamlRuleEnum.PlainText, indent: "")));
             _walker.Walk(document);
 
             Assert.That(_classBuilderMock.Build(""), Is.StringContaining(tagName));
@@ -55,7 +55,7 @@ namespace NHaml.Tests.Walkers.CodeDom
         {
             const string comment = "test";
             var document = HamlDocumentBuilder.Create("",
-                new HamlNodeHtmlComment(new HamlLine(comment, HamlRuleEnum.HtmlComment, indent: "", sourceFileLineNum: 0)));
+                new HamlNodeHtmlComment(new HamlLine(comment, HamlRuleEnum.HtmlComment, indent: "")));
 
             _walker.Walk(document);
 

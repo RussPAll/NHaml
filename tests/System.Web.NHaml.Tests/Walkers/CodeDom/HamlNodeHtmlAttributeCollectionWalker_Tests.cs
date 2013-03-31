@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web.NHaml.IO;
 using System.Web.NHaml.Parser.Rules;
 using System.Web.NHaml.Walkers.CodeDom;
 using NUnit.Framework;
@@ -24,7 +25,7 @@ namespace NHaml.Tests.Walkers.CodeDom
         [TestCase("(a)", " a")]
         public void Walk_VaryingAttributeCollections_WritesCorrectAttributes(string hamlLine, string expectedTag)
         {
-            var node = new HamlNodeHtmlAttributeCollection(0, 0, hamlLine);
+            var node = new HamlNodeHtmlAttributeCollection(new HamlSourceFileMetrics(0, 0, 0), hamlLine);
 
             var builder = new ClassBuilderMock();
             new HamlNodeHtmlAttributeCollectionWalker(builder, new HamlHtmlOptions())

@@ -26,7 +26,7 @@ namespace NHaml.Tests.Walkers.CodeDom
         public void Walk_ValidNode_CallsAppendCodeToStringMethod()
         {
             string codeSnippet = "1+1";
-            var node = new HamlNodeEval(new HamlLine(codeSnippet, HamlRuleEnum.PlainText, indent: "", sourceFileLineNum: -1));
+            var node = new HamlNodeEval(new HamlLine(codeSnippet, HamlRuleEnum.PlainText, indent: ""));
             
             _walker.Walk(node);
 
@@ -37,8 +37,8 @@ namespace NHaml.Tests.Walkers.CodeDom
         public void Walk_ChildNode_ThrowsInvalidChildNodeException()
         {
             string codeSnippet = "1+1";
-            var node = new HamlNodeEval(new HamlLine(codeSnippet, HamlRuleEnum.PlainText, indent: "", sourceFileLineNum: -1));
-            node.AddChild(new HamlNodeTextContainer(0, 0, ""));
+            var node = new HamlNodeEval(new HamlLine(codeSnippet, HamlRuleEnum.PlainText, indent: ""));
+            node.AddChild(new HamlNodeTextContainer(new HamlSourceFileMetrics(0, 0, 0), ""));
 
             Assert.Throws<HamlInvalidChildNodeException>(() => _walker.Walk(node));
         }

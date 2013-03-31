@@ -24,7 +24,7 @@ namespace System.Web.NHaml.Walkers.CodeDom
         {
             foreach (var child in node.Children)
             {
-                var nodeWalker = HamlWalkerFactory.GetNodeWalker(child.GetType(), child.SourceFileLineNum, ClassBuilder, Options);
+                var nodeWalker = HamlWalkerFactory.GetNodeWalker(child.GetType(), child.Metrics, ClassBuilder, Options);
                 if (nodeWalker == null) continue;
 
                 try
@@ -33,8 +33,7 @@ namespace System.Web.NHaml.Walkers.CodeDom
                 }
                 catch (Exception e)
                 {
-                    throw new HamlNodeWalkerException(child.GetType().Name,
-                        child.SourceFileLineNum, e);
+                    throw new HamlNodeWalkerException(child.GetType().Name, child.Metrics, e);
                 }
             }
         }
@@ -42,8 +41,7 @@ namespace System.Web.NHaml.Walkers.CodeDom
         internal void ValidateThereAreNoChildren(HamlNode node)
         {
             if (node.Children.Any())
-                throw new HamlInvalidChildNodeException(node.GetType(), node.Children.First().GetType(),
-                    node.SourceFileLineNum);
+                throw new HamlInvalidChildNodeException(node.GetType(), node.Children.First().GetType(), node.Metrics);
         }
     }
 }

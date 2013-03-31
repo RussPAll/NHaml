@@ -24,8 +24,7 @@ namespace NHaml.Tests.IO
         [TestCase("#{Var}", HamlRuleEnum.PlainText, Description = "Line starting with ruby-style variable")]
         public void Constructor_CalculatesRuleTypeCorrectly(string testString, HamlRuleEnum expectedRule)
         {
-            int tokenLength;
-            var rule = HamlRuleFactory.ParseHamlRule(ref testString, out tokenLength);
+            var rule = HamlRuleFactory.ParseHamlRule(ref testString);
             Assert.AreEqual(expectedRule, rule);
         }
 
@@ -43,28 +42,8 @@ namespace NHaml.Tests.IO
         [TestCase("#{var}", "#{var}", Description = "Line starting with ruby-style variable")]
         public void Constructor_ExtractsContentCorrectly(string testString, string expectedContent)
         {
-            int tokenLength;
-            HamlRuleFactory.ParseHamlRule(ref testString, out tokenLength);
+            HamlRuleFactory.ParseHamlRule(ref testString);
             Assert.AreEqual(expectedContent, testString);
-        }
-
-        [Test]
-        [TestCase("", 0, Description = "Empty string")]
-        [TestCase("%", 1, Description = "Plain tag")]
-        [TestCase(".className", 0, Description = "Implicit div via class")]
-        [TestCase("#id", 0, Description = "Implicit div via id")]
-        [TestCase("%Tag", 1, Description = "Plain tag")]
-        [TestCase("/Tag", 1, Description = "HTML Comment")]
-        [TestCase("-#Tag", 2, Description = "Haml Comment")]
-        [TestCase("!!!Tag", 3, Description = "DocType")]
-        [TestCase("\\%EscapedTag", 1, Description = "Escaped Tag")]
-        [TestCase("_ PartialName", 2, Description = "Partial with space")]
-        [TestCase("#{var}", 0, Description = "Line starting with ruby-style variable")]
-        public void Constructor_ReturnsTokenLengthCorrectly(string testString, int expectedTokenLength)
-        {
-            int tokenLength;
-            HamlRuleFactory.ParseHamlRule(ref testString, out tokenLength);
-            Assert.AreEqual(expectedTokenLength, tokenLength);
         }
     }
 }

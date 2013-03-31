@@ -31,7 +31,7 @@ namespace System.Web.NHaml.Parser
                 if (hamlFile.EndOfFile == false
                     && hamlFile.CurrentLine.IndentCount >= nodeLine.IndentCount)
                 {
-                    node.AppendPostTagNewLine(childNode, hamlFile.CurrentLine.SourceFileLineNo);
+                    node.AppendPostTagNewLine(childNode, hamlFile.CurrentLine.Metrics.LineNo);
                 }
             }
         }

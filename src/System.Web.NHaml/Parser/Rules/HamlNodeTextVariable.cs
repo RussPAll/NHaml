@@ -1,11 +1,12 @@
 ﻿using System.Linq;
+using System.Web.NHaml.IO;
 
 namespace System.Web.NHaml.Parser.Rules
 {
     public class HamlNodeTextVariable : HamlNode
     {
-        public HamlNodeTextVariable(int sourceLineNum, int sourceFileCharIndex, string content)
-            : base(sourceLineNum, sourceFileCharIndex, 0, content)
+        public HamlNodeTextVariable(HamlSourceFileMetrics metrics, string content)
+            : base(metrics, content)
         { }
 
         protected override bool IsContentGeneratingTag

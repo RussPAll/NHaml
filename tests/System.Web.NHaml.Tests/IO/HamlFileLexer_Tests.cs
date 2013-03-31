@@ -66,7 +66,7 @@ namespace NHaml.Tests.IO
             // Assert
             for (int c = 1; c < 5; c++)
             {
-                Assert.That(result.CurrentLine.SourceFileLineNo, Is.EqualTo(c));
+                Assert.That(result.CurrentLine.Metrics.LineNo, Is.EqualTo(c));
                 result.MoveNext();
             }
         }

@@ -27,7 +27,7 @@ namespace System.Web.NHaml.Parser
                 case HamlRuleEnum.Partial:
                     return new HamlNodePartial(nodeLine);
                 default:
-                    throw new HamlUnknownRuleException(nodeLine.Content, nodeLine.SourceFileLineNo);
+                    throw new HamlUnknownRuleException(nodeLine.Content, nodeLine.Metrics);
             }
         }
     }

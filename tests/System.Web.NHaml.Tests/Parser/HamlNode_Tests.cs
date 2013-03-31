@@ -12,7 +12,7 @@ namespace NHaml.Tests.Parser
     public class HamlNode_Tests
     {
         private class HamlNodeDummy : HamlNode {
-            public HamlNodeDummy() : base(0, 0, 0, "") { }
+            public HamlNodeDummy() : base(new HamlSourceFileMetrics(0, 0, 0), "") { }
 
             protected override bool IsContentGeneratingTag
             {
@@ -113,7 +113,7 @@ namespace NHaml.Tests.Parser
         [Test]
         public void GetNextUnresolvedPartial_Partials_ReturnsPartial()
         {
-            var partial = new HamlNodePartial(new HamlLine("", HamlRuleEnum.Partial, indent: "", sourceFileLineNum: -1));
+            var partial = new HamlNodePartial(new HamlLine("", HamlRuleEnum.Partial, new HamlSourceFileMetrics(-1, 0, 0), ""));
             var rootNode = new HamlNodeDummy();
             rootNode.AddChild(partial);
 
@@ -124,10 +124,10 @@ namespace NHaml.Tests.Parser
         [Test]
         public void GetNextUnresolvedPartial_OneResolvedAndOneUnresolvedPartial_ReturnsCorrectPartial()
         {
-            var resolvedPartial = new HamlNodePartial(new HamlLine("", HamlRuleEnum.Partial, indent: "", sourceFileLineNum: -1));
+            var resolvedPartial = new HamlNodePartial(new HamlLine("", HamlRuleEnum.Partial, new HamlSourceFileMetrics(-1, 0, 0), indent: ""));
             resolvedPartial.SetDocument(HamlDocumentBuilder.Create());
 
-            var unresolvedPartial = new HamlNodePartial(new HamlLine("", HamlRuleEnum.Partial, indent: "", sourceFileLineNum: -1));
+            var unresolvedPartial = new HamlNodePartial(new HamlLine("", HamlRuleEnum.Partial, new HamlSourceFileMetrics(-1, 0, 0), indent: ""));
 
             var rootNode = new HamlNodeDummy();
             rootNode.AddChild(resolvedPartial);
@@ -140,8 +140,9 @@ namespace NHaml.Tests.Parser
         [Test]
         public void GetNextUnresolvedPartial_PartialIsAGrandchildNode_ReturnsPartial()
         {
-            var textContainerNode = new HamlNodeTextContainer(0, 0, "Test content");
-            var partial = new HamlNodePartial(new HamlLine("", HamlRuleEnum.Partial, indent: "", sourceFileLineNum: -1));
+            var partial = new HamlNodePartial(
+                new HamlLine("", HamlRuleEnum.Partial, new HamlSourceFileMetrics(-1, 0, 0), indent: ""));
+            var textContainerNode = new HamlNodeTextContainer(new HamlSourceFileMetrics(-1, 0, 0), "Test content");
             textContainerNode.AddChild(partial);
 
             var rootNode = new HamlNodeDummy();

@@ -52,8 +52,8 @@ namespace NHaml.Tests.IO
             var lines = HamlLineLexer.ParseHamlLine("%p", 2).ToList();
 
             Assert.That(lines.Count, Is.EqualTo(1));
-            Assert.That(lines[0].SourceFileLineNo, Is.EqualTo(2));
-            Assert.That(lines[0].TokenLength, Is.EqualTo(1));
+            Assert.That(lines[0].Metrics.LineNo, Is.EqualTo(2));
+            Assert.That(lines[0].Metrics.Length, Is.EqualTo(1));
         }
     }
 }

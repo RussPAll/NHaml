@@ -50,9 +50,9 @@ namespace NHaml.IntegrationTests.Parser
             {
                 Console.WriteLine("Verifying token " + tokenIndex);
                 var token = tokenList[tokenIndex];
-                Assert.That(child.SourceFileLineNum, Is.EqualTo(token.LineIndex));
-                Assert.That(child.SourceFileCharIndex, Is.EqualTo(token.StartIndex));
-                Assert.That(child.SourceFileCharCount, Is.EqualTo(token.Length));
+                Assert.That(child.Metrics.LineNo, Is.EqualTo(token.LineIndex));
+                Assert.That(child.Metrics.ColNo, Is.EqualTo(token.StartIndex));
+                Assert.That(child.Metrics.Length, Is.EqualTo(token.Length));
                 tokenIndex++;
 
                 VerifyTokens(child, ref tokenIndex, tokenList);

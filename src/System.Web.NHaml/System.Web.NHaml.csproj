@@ -97,6 +97,7 @@
     <Compile Include="Configuration\XmlConfigurator.cs" />
     <Compile Include="IO\HamlLineLexer.cs" />
     <Compile Include="IO\HamlRuleFactory.cs" />
+    <Compile Include="IO\HamlSourceFileMetrics.cs" />
     <Compile Include="ITemplateEngine.cs" />
     <Compile Include="IViewSourceParser.cs" />
     <Compile Include="Parser\Rules\HamlNodeDocType.cs" />

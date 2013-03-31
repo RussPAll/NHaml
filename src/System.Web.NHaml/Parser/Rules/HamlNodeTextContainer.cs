@@ -16,11 +16,11 @@ namespace System.Web.NHaml.Parser.Rules
             get { return true; }
         }
 
-        public HamlNodeTextContainer(int sourceFileLineNo, int sourceFileCharIndex, string content)
-            : base(sourceFileLineNo, sourceFileCharIndex, 2, content)
+        public HamlNodeTextContainer(HamlSourceFileMetrics metrics, string content)
+            : base(metrics, content)
         {
             if (string.IsNullOrEmpty(content))
-                AddChild(new HamlNodeTextLiteral(sourceFileLineNo, sourceFileCharIndex+1, content));
+                AddChild(new HamlNodeTextLiteral(Metrics.SubSpan(1, 0), content));
             else
                 ParseFragments(content);
         }
@@ -51,14 +51,14 @@ namespace System.Web.NHaml.Parser.Rules
                     {
                         index++;
                         return (result.Length > 3)
-                            ? new HamlNodeTextVariable(SourceFileLineNum, SourceFileCharIndex + 1, result)
-                            : (HamlNode)new HamlNodeTextLiteral(SourceFileLineNum, SourceFileCharIndex + 1, result);
+                            ? new HamlNodeTextVariable(Metrics.SubSpan(1, result.Length), result)
+                            : (HamlNode)new HamlNodeTextLiteral(Metrics.SubSpan(1, result.Length), result);
                     }
                 }
                 else if (IsTagToken(content, index))
                 {
                     if (isEscaped == false)
-                        return new HamlNodeTextLiteral(SourceFileLineNum, SourceFileCharIndex + 1, result);
+                        return new HamlNodeTextLiteral(Metrics.SubSpan(1, result.Length), result);
                     result = RemoveEscapeCharacter(result) + content[index];
                 }
                 else
@@ -73,9 +73,9 @@ namespace System.Web.NHaml.Parser.Rules
             }
 
             if (isInTag)
-                throw new HamlMalformedVariableException(result, SourceFileLineNum);
+                throw new HamlMalformedVariableException(result, Metrics);
 
-            return new HamlNodeTextLiteral(SourceFileLineNum, SourceFileCharIndex + 1, result);
+            return new HamlNodeTextLiteral(Metrics.SubSpan(1, result.Length), result);
         }
 
         private static string RemoveEscapeCharacter(string result)

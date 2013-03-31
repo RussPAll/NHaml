@@ -18,11 +18,11 @@ namespace System.Web.NHaml.IO
             string indent = currentLine.Substring(0, whiteSpaceIndex);
             string content = (whiteSpaceIndex == currentLine.Length) ? "" : currentLine.Substring(whiteSpaceIndex);
             content = AddImplicitDivTag(content);
-            int tokenLength;
-            var hamlRule = HamlRuleFactory.ParseHamlRule(ref content, out tokenLength);
+            var hamlRule = HamlRuleFactory.ParseHamlRule(ref content);
 
+            var metrics = new HamlSourceFileMetrics(currentLineIndex, 0, currentLine.Length);
             var result = new List<HamlLine>();
-            var line = new HamlLine(content, hamlRule, tokenLength, indent, currentLineIndex, false);
+            var line = new HamlLine(content, hamlRule, metrics, indent, false);
 
             ProcessInlineTags(line, result);
             return result;
@@ -38,9 +38,9 @@ namespace System.Web.NHaml.IO
                     string subTag = line.Content.Substring(contentIndex).TrimStart();
                     line.Content = line.Content.Substring(0, contentIndex).Trim();
                     subTag = AddImplicitDivTag(subTag);
-                    int tokenLength;
-                    var subTagRule = HamlRuleFactory.ParseHamlRule(ref subTag, out tokenLength);
-                    var subLine = new HamlLine(subTag, subTagRule, tokenLength, line.Indent + "\t", sourceFileLineNum: line.SourceFileLineNo, isInline: true);
+                    var subTagRule = HamlRuleFactory.ParseHamlRule(ref subTag);
+                    var metrics = new HamlSourceFileMetrics(line.Metrics.LineNo, contentIndex, subTag.Length);
+                    var subLine = new HamlLine(subTag, subTagRule, metrics, line.Indent + "\t", isInline: true);
                     ProcessInlineTags(subLine, result);
                 }
             }

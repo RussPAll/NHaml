@@ -1,9 +1,11 @@
-﻿namespace System.Web.NHaml.Parser.Rules
+﻿using System.Web.NHaml.IO;
+
+namespace System.Web.NHaml.Parser.Rules
 {
     public class HamlNodeTagClass : HamlNode
     {
-        public HamlNodeTagClass(int sourceFileLineNo, int sourceFileCharIndex, string className)
-            : base(sourceFileLineNo, sourceFileCharIndex, 1, className)
+        public HamlNodeTagClass(HamlSourceFileMetrics metrics, string className)
+            : base(metrics, className)
         { }
 
         protected override bool IsContentGeneratingTag

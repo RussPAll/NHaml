@@ -7,26 +7,21 @@ namespace System.Web.NHaml.Parser
 {
     public abstract class HamlNode
     {
-        public readonly int SourceFileCharIndex;
-        public readonly int SourceFileLineNum;
-        public readonly int SourceFileCharCount;
         public readonly string Content;
         private readonly IList<HamlNode> _children = new List<HamlNode>();
         private readonly HamlLine _line;
+        public HamlSourceFileMetrics Metrics { get; private set; }
 
-        protected HamlNode(HamlLine nodeLine, int sourceFileCharIndex = 0)
+        protected HamlNode(HamlLine nodeLine)
         {
             _line = nodeLine;
             Content = nodeLine.Content;
-            SourceFileLineNum = _line.SourceFileLineNo;
-            SourceFileCharIndex = sourceFileCharIndex + nodeLine.Indent.Length;
-            SourceFileCharCount = nodeLine.Content.Length + nodeLine.TokenLength;
+            Metrics = _line.Metrics;
         }
 
-        protected HamlNode(int sourceFileLineNum, int sourceFileCharIndex, int tokenLength, string content)
+        protected HamlNode(HamlSourceFileMetrics metrics, string content)
             : this(
-                new HamlLine(content, HamlRuleEnum.Unknown, tokenLength, "", sourceFileLineNum, true),
-                sourceFileCharIndex)
+                new HamlLine(content, HamlRuleEnum.Unknown, metrics, "", true))
         { }
 
         public string Indent
@@ -110,13 +105,13 @@ namespace System.Web.NHaml.Parser
         public void AppendInnerTagNewLine()
         {
             if (IsContentGeneratingTag)
-                AddChild(new HamlNodeTextContainer(new HamlLine("\n", HamlRuleEnum.PlainText, indent: "", sourceFileLineNum: SourceFileLineNum)));
+                AddChild(new HamlNodeTextContainer(new HamlLine("\n", HamlRuleEnum.PlainText)));
         }
 
         public void AppendPostTagNewLine(HamlNode childNode, int lineNo)
         {
             if (childNode.IsContentGeneratingTag)
-                AddChild(new HamlNodeTextContainer(new HamlLine("\n", HamlRuleEnum.PlainText, indent: "", sourceFileLineNum: lineNo)));
+                AddChild(new HamlNodeTextContainer(new HamlLine("\n", HamlRuleEnum.PlainText)));
         }
 
         public HamlNodePartial GetNextUnresolvedPartial()

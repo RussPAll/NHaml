@@ -66,13 +66,13 @@ namespace System.Web.NHaml.Parser.Rules
             char attributeEndChar = HtmlStringHelper.GetAttributeTerminatingChar(content[pos]);
             if (attributeEndChar != '\0')
             {
-                int startIndex = pos + SourceFileCharIndex + 1;
+                int startIndex = pos + 1;
                 string attributes = HtmlStringHelper.ExtractTokenFromTagString(content, ref pos,
                                                                                new[] {attributeEndChar});
                 if (attributes[attributes.Length - 1] != attributeEndChar)
                     throw new HamlMalformedTagException(
-                        "Malformed HTML Attributes collection \"" + attributes + "\".", SourceFileLineNum);
-                AddChild(new HamlNodeHtmlAttributeCollection(SourceFileLineNum, startIndex, attributes));
+                        "Malformed HTML Attributes collection \"" + attributes + "\".", Metrics);
+                AddChild(new HamlNodeHtmlAttributeCollection(Metrics.SubSpan(startIndex, attributes.Length), attributes));
 
                 pos++;
             }
@@ -126,7 +126,7 @@ namespace System.Web.NHaml.Parser.Rules
             if (pos >= content.Length) return;
 
             string contentLine = content.Substring(pos).TrimStart();
-            AddChild(new HamlNodeTextContainer(SourceFileLineNum, -1, contentLine));
+            AddChild(new HamlNodeTextContainer(Metrics.SubSpan(pos, contentLine.Length), contentLine));
         }
 
         public string TagName
@@ -155,19 +155,19 @@ namespace System.Web.NHaml.Parser.Rules
 
         private void ParseTagIdNode(string content, ref int pos)
         {
-            int startIndex = pos + SourceFileCharIndex + 1;
+            int startIndex = pos + 1;
             pos++;
             string tagId = GetHtmlToken(content, ref pos);
-            var newTag = new HamlNodeTagId(SourceFileLineNum, startIndex, tagId);
+            var newTag = new HamlNodeTagId(Metrics.SubSpan(startIndex, tagId.Length + 1), tagId);
             AddChild(newTag);
         }
 
         private void ParseClassNode(string content, ref int pos)
         {
-            int startIndex = pos + SourceFileCharIndex + 1;
+            int startIndex = pos + 1;
             pos++;
             string className = GetHtmlToken(content, ref pos);
-            var newTag = new HamlNodeTagClass(SourceFileLineNum, startIndex, className);
+            var newTag = new HamlNodeTagClass(Metrics.SubSpan(startIndex, className.Length + 1), className);
             AddChild(newTag);
         }
 

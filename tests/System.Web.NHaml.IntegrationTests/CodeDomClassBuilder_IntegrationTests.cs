@@ -1,4 +1,5 @@
 ﻿using System.Web.NHaml.Compilers;
+using System.Web.NHaml.IO;
 using System.Web.NHaml.Parser;
 using System.Web.NHaml.Parser.Rules;
 using System.Web.NHaml.TemplateBase;
@@ -33,9 +34,9 @@ namespace NHaml.IntegrationTests
             var classBuilder = new CodeDomClassBuilder();
             var valueFragments = new List<HamlNode>
                                      {
-                                         new HamlNodeTextLiteral(-1, 0, "value"),
-                                         new HamlNodeTextVariable(-1, 0, "#{Variable}"),
-                                         new HamlNodeTextLiteral(-1, 0, "value")
+                                         new HamlNodeTextLiteral(new HamlSourceFileMetrics(0, 0, 0), "value"),
+                                         new HamlNodeTextVariable(new HamlSourceFileMetrics(0, 0, 0), "#{Variable}"),
+                                         new HamlNodeTextLiteral(new HamlSourceFileMetrics(0, 0, 0), "value")
                                      };
             classBuilder.AppendAttributeNameValuePair("name",
                 valueFragments, '\"');
@@ -56,8 +57,8 @@ namespace NHaml.IntegrationTests
         public void AppendMultipleAttributeNameValuePairs_XHtml4_CompilesValidTemplate()
         {
             var classBuilder = new CodeDomClassBuilder();
-            classBuilder.AppendAttributeNameValuePair("name", new List<HamlNode> { new HamlNodeTextLiteral(-1, 0, "value") }, '\"');
-            classBuilder.AppendAttributeNameValuePair("name", new List<HamlNode> { new HamlNodeTextLiteral(-1, 0, "value") }, '\"');
+            classBuilder.AppendAttributeNameValuePair("name", new List<HamlNode> { new HamlNodeTextLiteral(new HamlSourceFileMetrics(0, 0, 0), "value") }, '\"');
+            classBuilder.AppendAttributeNameValuePair("name", new List<HamlNode> { new HamlNodeTextLiteral(new HamlSourceFileMetrics(0, 0, 0), "value") }, '\"');
             string templateSource = classBuilder.Build(ClassName);
             var result = GenerateTemplateFromSource(templateSource);
 

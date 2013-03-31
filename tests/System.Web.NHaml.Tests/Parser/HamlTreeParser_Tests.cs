@@ -104,7 +104,7 @@ namespace NHaml.Tests.Parser
         [Test]
         public void ParseHamlFile_UnknownRuleType_ThrowsUnknownRuleException()
         {
-            var line = new HamlLine("", HamlRuleEnum.Unknown, indent: "", sourceFileLineNum: 0);
+            var line = new HamlLine("", HamlRuleEnum.Unknown, indent: "");
 
             var file = new HamlFile("");
             file.AddLine(line);
