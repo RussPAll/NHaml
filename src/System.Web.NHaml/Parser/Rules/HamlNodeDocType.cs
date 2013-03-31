@@ -5,7 +5,7 @@ namespace System.Web.NHaml.Parser.Rules
     public class HamlNodeDocType : HamlNode
     {
         public HamlNodeDocType(HamlLine line)
-            : base(line, -1) { }
+            : base(line) { }
 
         protected override bool IsContentGeneratingTag
         {

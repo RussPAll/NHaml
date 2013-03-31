@@ -7,7 +7,7 @@ namespace System.Web.NHaml.Parser.Rules
     public class HamlNodeHtmlAttributeCollection : HamlNode
     {
         public HamlNodeHtmlAttributeCollection(int sourceFileLineNo, int sourceFileCharIndex, string attributeCollection)
-            : base(sourceFileLineNo, sourceFileCharIndex, attributeCollection)
+            : base(sourceFileLineNo, sourceFileCharIndex, 0, attributeCollection)
             
         {
             if (Content[0] != '(' && Content[0] != '{')
@@ -27,9 +27,10 @@ namespace System.Web.NHaml.Parser.Rules
             char closingBracketChar = attributeCollection[0] == '{' ? '}' : ')';
             while (index < attributeCollection.Length)
             {
+                int startIndex = index;
                 string nameValuePair = GetNextAttributeToken(attributeCollection, closingBracketChar, ref index);
                 if (!string.IsNullOrEmpty(nameValuePair))
-                    AddChild(new HamlNodeHtmlAttribute(SourceFileLineNum, -1, nameValuePair));
+                    AddChild(new HamlNodeHtmlAttribute(SourceFileLineNum, startIndex + SourceFileCharIndex, nameValuePair));
                 index++;
             }
         }

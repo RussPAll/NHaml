@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Web.Script.Serialization;
-using System.Dynamic;
 using System.IO;
 
 namespace HamlSpec
 {
     internal class HamlSpecLoader
     {
-        private string fileName;
+        private readonly string _fileName;
 
         public HamlSpecLoader(string fileName)
         {
-            this.fileName = fileName;
+            _fileName = fileName;
         }
-        public IDictionary<string, IEnumerable<HamlSpec>> GetTheHamlSpecTests()
+
+        public IDictionary<string, IEnumerable<HamlSpec>> LoadHamlSpecTests()
         {
             var deserializedFile = GetDeserializedFile();
             var result = new Dictionary<string,IEnumerable<HamlSpec>>();
@@ -32,7 +31,7 @@ namespace HamlSpec
 
         private IDictionary<string, object> GetDeserializedFile()
         {
-            var json = File.ReadAllText(fileName);
+            var json = File.ReadAllText(_fileName);
             var serializer = new JavaScriptSerializer { MaxJsonLength = int.MaxValue };
             return (IDictionary<string, object>)serializer.DeserializeObject(json);
         }

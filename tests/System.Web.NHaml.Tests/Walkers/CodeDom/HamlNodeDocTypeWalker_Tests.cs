@@ -34,7 +34,7 @@ namespace NHaml.Tests.Walkers.CodeDom
         [Test]
         public void Walk_ValidNodeWithNoChildren_AppendsDocType()
         {
-            var node = new HamlNodeDocType(new HamlLine("", HamlRuleEnum.DocType, "", -1));
+            var node = new HamlNodeDocType(new HamlLine("", HamlRuleEnum.DocType, indent: "", sourceFileLineNum: -1));
 
             _walker.Walk(node);
 
@@ -44,7 +44,7 @@ namespace NHaml.Tests.Walkers.CodeDom
         [Test]
         public void Walk_ValidNodeWithChildren_Throws()
         {
-            var node = new HamlNodeDocType(new HamlLine("", HamlRuleEnum.DocType, "", -1));
+            var node = new HamlNodeDocType(new HamlLine("", HamlRuleEnum.DocType, indent: "", sourceFileLineNum: -1));
             node.AddChild(new HamlNodeTextContainer(-1, 0, ""));
 
             Assert.Throws<HamlInvalidChildNodeException>(() => _walker.Walk(node));

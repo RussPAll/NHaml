@@ -5,8 +5,7 @@ namespace System.Web.NHaml.IO
 {
     public class HamlLine
     {
-        public HamlLine(string content, HamlRuleEnum hamlRule,
-            string indent = "", int sourceFileLineNum = -1, bool isInline = false)
+        public HamlLine(string content, HamlRuleEnum hamlRule, int tokenLength = 0, string indent = "", int sourceFileLineNum = -1, bool isInline = false)
         {
             SourceFileLineNo = sourceFileLineNum;
             Content = content;
@@ -15,6 +14,7 @@ namespace System.Web.NHaml.IO
                 ? 0
                 : GetIndentCount(indent);
             HamlRule = hamlRule;
+            TokenLength = tokenLength;
             IsInline = isInline;
         }
 
@@ -32,6 +32,7 @@ namespace System.Web.NHaml.IO
         public int IndentCount { get; private set; }
         public int SourceFileLineNo { get; private set; }
         public HamlRuleEnum HamlRule { get; private set; }
+        public int TokenLength { get; private set; }
         public string Indent { get; private set; }
         public string Content { get; set; }
         public bool IsInline { get; private set; }

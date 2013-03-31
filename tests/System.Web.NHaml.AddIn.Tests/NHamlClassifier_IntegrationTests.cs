@@ -18,17 +18,17 @@ namespace System.Web.NHaml.AddIn.Tests
             _classifier = new NHamlClassifier(bufferMock.Object, classificationTypeRegistryServiceMock.Object);
         }
 
-        [Test]
-        public void TBC()
-        {
-            // Arrange
-            var snapshotSpan = new SnapshotSpan();
+        //[Test]
+        //public void TBC()
+        //{
+        //    // Arrange
+        //    var snapshotSpan = new SnapshotSpan();
 
-            // Act
-            var spans = _classifier.GetClassificationSpans(snapshotSpan);
+        //    // Act
+        //    var spans = _classifier.GetClassificationSpans(snapshotSpan);
 
-            // Assert
-            Assert.Pass();
-        }
+        //    // Assert
+        //    Assert.Pass();
+        //}
     }
 }

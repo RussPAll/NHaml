@@ -5,7 +5,7 @@ namespace System.Web.NHaml.Parser.Rules
     public class HamlNodeEval : HamlNode
     {
         public HamlNodeEval(HamlLine line)
-            : base(line, -1) { }
+            : base(line) { }
 
         protected override bool IsContentGeneratingTag
         {

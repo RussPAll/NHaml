@@ -5,7 +5,7 @@ namespace System.Web.NHaml.Parser.Rules
     public class HamlNodeTextVariable : HamlNode
     {
         public HamlNodeTextVariable(int sourceLineNum, int sourceFileCharIndex, string content)
-            : base(sourceLineNum, sourceFileCharIndex, content)
+            : base(sourceLineNum, sourceFileCharIndex, 0, content)
         { }
 
         protected override bool IsContentGeneratingTag

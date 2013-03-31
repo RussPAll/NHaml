@@ -30,7 +30,7 @@ namespace NHaml.Tests.Walkers.CodeDom
         public void Walk_NonSelfClosingTags_AppendsCorrectTag(string templateLine, string expectedOutput)
         {
             // Arrange
-            var tagNode = new HamlNodeTag(new HamlLine(templateLine, HamlRuleEnum.Tag, "", 0));
+            var tagNode = new HamlNodeTag(new HamlLine(templateLine, HamlRuleEnum.Tag, indent: "", sourceFileLineNum: 0));
 
             // Act
             _tagWalker.Walk(tagNode);
@@ -44,7 +44,7 @@ namespace NHaml.Tests.Walkers.CodeDom
         {
             // Arrange
             const string tagName = "foo/";
-            var tagNode = new HamlNodeTag(new HamlLine(tagName, HamlRuleEnum.Tag, "", 0));
+            var tagNode = new HamlNodeTag(new HamlLine(tagName, HamlRuleEnum.Tag, indent: "", sourceFileLineNum: 0));
 
             // Act
             _tagWalker.Walk(tagNode);
@@ -59,7 +59,7 @@ namespace NHaml.Tests.Walkers.CodeDom
         {
             // Arrange
             const string indent = "  ";
-            var tagNode = new HamlNodeTag(new HamlLine("p", HamlRuleEnum.Tag, indent, 0));
+            var tagNode = new HamlNodeTag(new HamlLine("p", HamlRuleEnum.Tag, indent: indent, sourceFileLineNum: 0));
 
             // Act
             _tagWalker.Walk(tagNode);
@@ -74,8 +74,8 @@ namespace NHaml.Tests.Walkers.CodeDom
             // Arrange
             const string tagName = "p";
             const string nestedText = "Hello world";
-            var tagNode = new HamlNodeTag(new HamlLine(tagName, HamlRuleEnum.Tag, "", 0));
-            tagNode.AddChild(new HamlNodeTextContainer(new HamlLine(nestedText, HamlRuleEnum.PlainText, "", 1, true)));
+            var tagNode = new HamlNodeTag(new HamlLine(tagName, HamlRuleEnum.Tag, indent: "", sourceFileLineNum: 0));
+            tagNode.AddChild(new HamlNodeTextContainer(new HamlLine(nestedText, HamlRuleEnum.PlainText, indent: "", sourceFileLineNum: 1, isInline: true)));
             // Act
             _tagWalker.Walk(tagNode);
 
@@ -90,7 +90,7 @@ namespace NHaml.Tests.Walkers.CodeDom
             // Arrange
             const string tagId = "id";
             const string tagClass = "class";
-            var tagNode = new HamlNodeTag(new HamlLine("p", HamlRuleEnum.Tag, "", 0));
+            var tagNode = new HamlNodeTag(new HamlLine("p", HamlRuleEnum.Tag, indent: "", sourceFileLineNum: 0));
             tagNode.AddChild(new HamlNodeTagId(0, 0, tagId));
             tagNode.AddChild(new HamlNodeTagClass(0, 0, tagClass));
 
@@ -108,7 +108,7 @@ namespace NHaml.Tests.Walkers.CodeDom
             // Arrange
             const string tagId = "id";
             const string tagClass = "class";
-            var tagNode = new HamlNodeTag(new HamlLine("p", HamlRuleEnum.Tag, "", 0));
+            var tagNode = new HamlNodeTag(new HamlLine("p", HamlRuleEnum.Tag, indent: "", sourceFileLineNum: 0));
             tagNode.AddChild(new HamlNodeTagClass(0, 0, tagClass));
             tagNode.AddChild(new HamlNodeTagId(0, 0, tagId));
 
@@ -124,7 +124,7 @@ namespace NHaml.Tests.Walkers.CodeDom
         public void Walk_MultipleClassNodes_WritesCorrectClassAttribute()
         {
             // Arrange
-            var tagNode = new HamlNodeTag(new HamlLine("p", HamlRuleEnum.Tag, "", 0));
+            var tagNode = new HamlNodeTag(new HamlLine("p", HamlRuleEnum.Tag, indent: "", sourceFileLineNum: 0));
             tagNode.AddChild(new HamlNodeTagClass(0, 0, "class1"));
             tagNode.AddChild(new HamlNodeTagClass(0, 0, "class2"));
 
@@ -140,7 +140,7 @@ namespace NHaml.Tests.Walkers.CodeDom
         public void Walk_MultipleIdNodes_WritesCorrectIdAttribute()
         {
             // Arrange
-            var tagNode = new HamlNodeTag(new HamlLine("p", HamlRuleEnum.Tag, "", 0));
+            var tagNode = new HamlNodeTag(new HamlLine("p", HamlRuleEnum.Tag, indent: "", sourceFileLineNum: 0));
             tagNode.AddChild(new HamlNodeTagId(0, 0, "id1"));
             tagNode.AddChild(new HamlNodeTagId(0, 0, "id2"));
 
@@ -156,7 +156,7 @@ namespace NHaml.Tests.Walkers.CodeDom
         public void Walk_IdHtmlAttribute_WritesCorrectIdAttribute()
         {
             // Arrange
-            var tagNode = new HamlNodeTag(new HamlLine("p", HamlRuleEnum.Tag, "", 0));
+            var tagNode = new HamlNodeTag(new HamlLine("p", HamlRuleEnum.Tag, indent: "", sourceFileLineNum: 0));
             tagNode.AddChild(new HamlNodeHtmlAttributeCollection(0, 0, "(id='id')"));
 
             // Act
@@ -172,7 +172,7 @@ namespace NHaml.Tests.Walkers.CodeDom
         public void Walk_ClassHtmlAttribute_WritesCorrectClassAttribute()
         {
             // Arrange
-            var tagNode = new HamlNodeTag(new HamlLine("p", HamlRuleEnum.Tag, "", 0));
+            var tagNode = new HamlNodeTag(new HamlLine("p", HamlRuleEnum.Tag, indent: "", sourceFileLineNum: 0));
             tagNode.AddChild(new HamlNodeHtmlAttributeCollection(0, 0, "(class='class')"));
 
             // Act
@@ -187,7 +187,7 @@ namespace NHaml.Tests.Walkers.CodeDom
         public void Walk_IdNoteAndIdHtmlAttribute_WritesCorrectIdAttribute()
         {
             // Arrange
-            var tagNode = new HamlNodeTag(new HamlLine("p", HamlRuleEnum.Tag, "", 0));
+            var tagNode = new HamlNodeTag(new HamlLine("p", HamlRuleEnum.Tag, indent: "", sourceFileLineNum: 0));
             tagNode.AddChild(new HamlNodeTagId(0, 0, "id1"));
             tagNode.AddChild(new HamlNodeHtmlAttributeCollection(0, 0, "(id='id2')"));
 
@@ -203,7 +203,7 @@ namespace NHaml.Tests.Walkers.CodeDom
         public void Walk_ClassNoteAndClassHtmlAttribute_WritesCorrectIdAttribute()
         {
             // Arrange
-            var tagNode = new HamlNodeTag(new HamlLine("p", HamlRuleEnum.Tag, "", 0));
+            var tagNode = new HamlNodeTag(new HamlLine("p", HamlRuleEnum.Tag, indent: "", sourceFileLineNum: 0));
             tagNode.AddChild(new HamlNodeTagClass(0, 0, "class2"));
             tagNode.AddChild(new HamlNodeHtmlAttributeCollection(0, 0, "(class='class1')"));
 
@@ -221,7 +221,7 @@ namespace NHaml.Tests.Walkers.CodeDom
         [TestCase("p", "(a='b')", "<p a=\'b\'></p>")]
         public void Walk_EmptyAttributeCollectionNode_WritesCorrectAttributes(string tag, string attributes, string expectedOutput)
         {
-            var tagNode = new HamlNodeTag(new HamlLine(tag, HamlRuleEnum.Tag, "", 0));
+            var tagNode = new HamlNodeTag(new HamlLine(tag, HamlRuleEnum.Tag, indent: "", sourceFileLineNum: 0));
             tagNode.AddChild(new HamlNodeHtmlAttributeCollection(0, 0, attributes));
 
             _tagWalker.Walk(tagNode);
@@ -234,8 +234,8 @@ namespace NHaml.Tests.Walkers.CodeDom
         [TestCase("p<", "p", "", "<p><p></p></p>")]
         public void Walk_WhitespaceRemoval_GeneratesCorrectOutput(string line1, string line2, string line3, string expectedOutput)
         {
-            var tagNode = new HamlNodeTag(new HamlLine(line1, HamlRuleEnum.Tag, "", 0));
-            tagNode.AddChild(new HamlNodeTag(new HamlLine(line2, HamlRuleEnum.Tag, "  ", 0)));
+            var tagNode = new HamlNodeTag(new HamlLine(line1, HamlRuleEnum.Tag, indent: "", sourceFileLineNum: 0));
+            tagNode.AddChild(new HamlNodeTag(new HamlLine(line2, HamlRuleEnum.Tag, indent: "  ", sourceFileLineNum: 0)));
 
             _tagWalker.Walk(tagNode);
 
@@ -245,11 +245,11 @@ namespace NHaml.Tests.Walkers.CodeDom
         [Test]
         public void Walk_InternalWhitespaceRemoval_GeneratesCorrectOutput()
         {
-            var tagNode = new HamlNodeTag(new HamlLine("p<", HamlRuleEnum.Tag, "", 0));
+            var tagNode = new HamlNodeTag(new HamlLine("p<", HamlRuleEnum.Tag, indent: "", sourceFileLineNum: 0));
             //tagNode.IsMultiLine = true;
 
-            tagNode.AddChild(new HamlNodeTextContainer(new HamlLine("\n", HamlRuleEnum.PlainText, "", 0)));
-            tagNode.AddChild(new HamlNodeTextContainer(new HamlLine("  Hello", HamlRuleEnum.PlainText, "", 0)));
+            tagNode.AddChild(new HamlNodeTextContainer(new HamlLine("\n", HamlRuleEnum.PlainText, indent: "", sourceFileLineNum: 0)));
+            tagNode.AddChild(new HamlNodeTextContainer(new HamlLine("  Hello", HamlRuleEnum.PlainText, indent: "", sourceFileLineNum: 0)));
 
             _tagWalker.Walk(tagNode);
 
@@ -261,7 +261,7 @@ namespace NHaml.Tests.Walkers.CodeDom
         public void Walk_InlineContent_GeneratesCorrectOutput()
         {
             var tagNode = new HamlNodeTag(new HamlLine("p", HamlRuleEnum.Tag));
-            tagNode.AddChild(new HamlNodeTextContainer(new HamlLine("Content", HamlRuleEnum.PlainText, "\t", 0, true)));
+            tagNode.AddChild(new HamlNodeTextContainer(new HamlLine("Content", HamlRuleEnum.PlainText, indent: "\t", sourceFileLineNum: 0, isInline: true)));
 
             _tagWalker.Walk(tagNode);
 

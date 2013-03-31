@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Web.NHaml.Configuration;
 using System.Web.NHaml.TemplateBase;
 using System.Web.NHaml.TemplateResolution;
-using System.Web.NHaml.Walkers.CodeDom;
 using NUnit.Framework;
 using NHaml.Tests.Builders;
-using NHaml;
 using System.IO;
 
 namespace HamlSpec
@@ -24,7 +21,7 @@ namespace HamlSpec
             _totalNoTests = 0;
             _totalNoTestsFailed = 0;
 
-            _hamlSpecs = new HamlSpecLoader(fileName).GetTheHamlSpecTests();
+            _hamlSpecs = new HamlSpecLoader(fileName).LoadHamlSpecTests();
         }
 
         public void OutputSummaryToConsole()

@@ -1,0 +1,24 @@
+﻿[
+    {
+        "Name": "simple tag",
+        "Content": "%p#id.class",
+        "TokenList": [
+            { "Type": "HamlNodeTag", "LineIndex": 1, "StartIndex": 0, "Length": 11 },
+            { "Type": "HamlNodeTagId", "LineIndex": 1, "StartIndex": 2, "Length": 3 },
+            { "Type": "HamlNodeTagClass", "LineIndex": 1, "StartIndex": 5, "Length": 6 }
+        ]
+    },
+    
+    {
+        "Name": "tag with property",
+        "Content": "%p(a='b')",
+        "TokenList" : [
+            { "Type" : "HamlNodeTag", "LineIndex" : 1, "StartIndex" : 0, "Length" : 9 },
+            { "Type" : "HamlNodeHtmlAttributeCollection", "LineIndex" : 1, "StartIndex" : 2, "Length" : 7 },
+            { "Type" : "HamlNodeHtmlAttribute", "LineIndex" : 1, "StartIndex" : 3, "Length" : 5 },
+            { "Type": "HamlNodeTextContainer", "LineIndex": 1, "StartIndex": 5, "Length": 3 },
+            { "Type": "HamlNodeTextLiteral", "LineIndex": 1, "StartIndex": 6, "Length": 1 }
+
+        ]
+    }
+]

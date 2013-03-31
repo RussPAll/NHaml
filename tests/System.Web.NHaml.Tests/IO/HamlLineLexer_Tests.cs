@@ -45,5 +45,15 @@ namespace NHaml.Tests.IO
             if (expectedLineCount > 1)
                 Assert.That(lines[1].Content, Is.EqualTo(expectedLine2));
         }
+        
+        [Test]
+        public void Constructor_SimpleTag_GeneratesCorrectIndexes()
+        {
+            var lines = HamlLineLexer.ParseHamlLine("%p", 2).ToList();
+
+            Assert.That(lines.Count, Is.EqualTo(1));
+            Assert.That(lines[0].SourceFileLineNo, Is.EqualTo(2));
+            Assert.That(lines[0].TokenLength, Is.EqualTo(1));
+        }
     }
 }

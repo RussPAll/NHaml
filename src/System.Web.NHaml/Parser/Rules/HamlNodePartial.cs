@@ -4,7 +4,7 @@ namespace System.Web.NHaml.Parser.Rules
 {
     public class HamlNodePartial : HamlNode
     {
-        public HamlNodePartial(HamlLine line) : base(line, -1) {
+        public HamlNodePartial(HamlLine line) : base(line) {
             IsResolved = false;
         }
 

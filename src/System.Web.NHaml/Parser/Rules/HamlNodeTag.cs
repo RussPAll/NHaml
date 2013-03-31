@@ -15,7 +15,7 @@ namespace System.Web.NHaml.Parser.Rules
         private WhitespaceRemoval _whitespaceRemoval = WhitespaceRemoval.None;
 
         public HamlNodeTag(IO.HamlLine nodeLine)
-            : base(nodeLine, -1)
+            : base(nodeLine)
         {
             IsSelfClosing = false;
             int pos = 0;
@@ -66,12 +66,13 @@ namespace System.Web.NHaml.Parser.Rules
             char attributeEndChar = HtmlStringHelper.GetAttributeTerminatingChar(content[pos]);
             if (attributeEndChar != '\0')
             {
+                int startIndex = pos + SourceFileCharIndex + 1;
                 string attributes = HtmlStringHelper.ExtractTokenFromTagString(content, ref pos,
                                                                                new[] {attributeEndChar});
                 if (attributes[attributes.Length - 1] != attributeEndChar)
                     throw new HamlMalformedTagException(
                         "Malformed HTML Attributes collection \"" + attributes + "\".", SourceFileLineNum);
-                AddChild(new HamlNodeHtmlAttributeCollection(SourceFileLineNum, -1, attributes));
+                AddChild(new HamlNodeHtmlAttributeCollection(SourceFileLineNum, startIndex, attributes));
 
                 pos++;
             }
@@ -154,17 +155,19 @@ namespace System.Web.NHaml.Parser.Rules
 
         private void ParseTagIdNode(string content, ref int pos)
         {
+            int startIndex = pos + SourceFileCharIndex + 1;
             pos++;
             string tagId = GetHtmlToken(content, ref pos);
-            var newTag = new HamlNodeTagId(SourceFileLineNum, -1, tagId);
+            var newTag = new HamlNodeTagId(SourceFileLineNum, startIndex, tagId);
             AddChild(newTag);
         }
 
         private void ParseClassNode(string content, ref int pos)
         {
+            int startIndex = pos + SourceFileCharIndex + 1;
             pos++;
             string className = GetHtmlToken(content, ref pos);
-            var newTag = new HamlNodeTagClass(SourceFileLineNum, -1, className);
+            var newTag = new HamlNodeTagClass(SourceFileLineNum, startIndex, className);
             AddChild(newTag);
         }
 

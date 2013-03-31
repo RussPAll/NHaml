@@ -18,7 +18,7 @@ namespace NHaml.Tests.Parser
         [TestCase(HamlRuleEnum.Evaluation, typeof(HamlNodeEval))]
         public void GetHamlNode_DifferentHamlLineTypes_ReturnsCorrectHamlNode(HamlRuleEnum rule, Type nodeType)
         {
-            var line = new HamlLine("Blah", rule, "", 0);
+            var line = new HamlLine("Blah", rule, indent: "", sourceFileLineNum: 0);
             var result = HamlNodeFactory.GetHamlNode(line);
             Assert.That(result, Is.InstanceOf(nodeType));
         }
@@ -28,7 +28,7 @@ namespace NHaml.Tests.Parser
         [TestCase(HamlRuleEnum.DivId, typeof(HamlNodeTag))]
         public void GetHamlNode_TagSubTypes_ThrowsHamlUnknownRuleException(HamlRuleEnum rule, Type nodeType)
         {
-            var line = new HamlLine("Blah", rule, "", 0);
+            var line = new HamlLine("Blah", rule, indent: "", sourceFileLineNum: 0);
             Assert.Throws<HamlUnknownRuleException>(() => HamlNodeFactory.GetHamlNode(line));
         }
     }

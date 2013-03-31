@@ -9,7 +9,7 @@ namespace System.Web.NHaml.Parser.Rules
         private char _quoteChar = '\'';
 
         public HamlNodeHtmlAttribute(int sourceFileLineNo, int sourceFileCharIndex, string nameValuePair)
-            : base(sourceFileLineNo, sourceFileCharIndex, nameValuePair)
+            : base(sourceFileLineNo, sourceFileCharIndex, 0, nameValuePair)
         {
             int index = 0;
             ParseName(ref index);
@@ -22,7 +22,7 @@ namespace System.Web.NHaml.Parser.Rules
 
             string value = Content.Substring(index + 1);
 
-            AddChild(new HamlNodeTextContainer(SourceFileLineNum, -1, GetValue(value)));
+            AddChild(new HamlNodeTextContainer(SourceFileLineNum, index + SourceFileCharIndex + 1, GetValue(value)));
         }
 
         protected override bool IsContentGeneratingTag

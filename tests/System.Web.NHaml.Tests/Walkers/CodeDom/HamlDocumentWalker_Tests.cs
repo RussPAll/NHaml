@@ -20,7 +20,7 @@ namespace NHaml.Tests.Walkers
         public void Walk_TextNode_AppendsCorrectTag()
         {
             // Arrange
-            var content = new HamlLine("Simple content", HamlRuleEnum.PlainText, "", 0);
+            var content = new HamlLine("Simple content", HamlRuleEnum.PlainText, indent: "", sourceFileLineNum: 0);
             var document = HamlDocumentBuilder.Create("",
                 new HamlNodeTextContainer(content));
             Type baseType = typeof(Template);

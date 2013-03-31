@@ -17,7 +17,7 @@ namespace NHaml.Tests.IO
         [TestCase("\t ", "Test", 3, Description = "Tab + Space followed by plain text")]
         public void Constructor_CalculatesIndentCountCorrectly(string indent, string content, int expectedIndent)
         {
-            var line = new HamlLine(content, HamlRuleEnum.PlainText, indent, 0);
+            var line = new HamlLine(content, HamlRuleEnum.PlainText, indent: indent, sourceFileLineNum: 0);
             Assert.AreEqual(expectedIndent, line.IndentCount);
         }
 
@@ -27,7 +27,7 @@ namespace NHaml.Tests.IO
         [TestCase(" ", "", HamlRuleEnum.Partial, 1)]
         public void Constructor_MaintainsIndentForNonTextNodes(string indent, string content, HamlRuleEnum rule, int expectedIndent)
         {
-            var line = new HamlLine(content, rule, indent, 0);
+            var line = new HamlLine(content, rule, indent: indent, sourceFileLineNum: 0);
             Assert.AreEqual(expectedIndent, line.IndentCount);
         }
     }
