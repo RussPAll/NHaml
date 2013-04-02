@@ -53,7 +53,7 @@ namespace NHaml.Tests.IO
 
             Assert.That(lines.Count, Is.EqualTo(1));
             Assert.That(lines[0].Metrics.LineNo, Is.EqualTo(2));
-            Assert.That(lines[0].Metrics.Length, Is.EqualTo(1));
+            Assert.That(lines[0].Metrics.Length, Is.EqualTo(2));
         }
     }
 }

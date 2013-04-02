@@ -61,7 +61,7 @@ namespace NHamlSyntaxHighlighter
 
         private void AddClassificationSpans(SnapshotSpan snapshotSpan, List<ClassificationSpan> spans, HamlNode node)
         {
-            if (node.Metrics.Length > 0)
+            if (node.Metrics.Length > 0 && node.Metrics.ColNo >= 0)
             {
                 var span = new SnapshotSpan(snapshotSpan.Snapshot, node.Metrics.ColNo, node.Metrics.Length);
                 var type = GetClassificationTypeForMarkdownToken(node.GetType());
@@ -82,8 +82,10 @@ namespace NHamlSyntaxHighlighter
             { typeof(HamlNodeHamlComment), "nhaml.hamlComment" },
             { typeof(HamlNodeEval), "nhaml.eval" },
             { typeof(HamlNodePartial), "nhaml.partial" },
+            { typeof(HamlNodeTextContainer), "nhaml.textContainer" },
             { typeof(HamlNodeTextLiteral), "nhaml.textLiteral" },
             { typeof(HamlNodeTextVariable), "nhaml.textVariable" },
+            { typeof(HamlNodeHtmlAttribute), "nhaml.htmlAttribute" },
             { typeof(HamlNodeHtmlAttributeCollection), "nhaml.htmlAttributeCollection" },
         };
 

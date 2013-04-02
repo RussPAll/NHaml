@@ -15,20 +15,37 @@ namespace System.Web.NHaml.AddIn.Tests
         {
             var bufferMock = new Mock<ITextBuffer>();
             var classificationTypeRegistryServiceMock = new Mock<IClassificationTypeRegistryService>();
+            classificationTypeRegistryServiceMock.Setup(x => x.GetClassificationType(It.IsAny<string>()))
+                                                 .Returns(new Mock<IClassificationType>().Object);
             _classifier = new NHamlClassifier(bufferMock.Object, classificationTypeRegistryServiceMock.Object);
         }
 
-        //[Test]
-        //public void TBC()
-        //{
-        //    // Arrange
-        //    var snapshotSpan = new SnapshotSpan();
+        [Test]
+        public void GetClassificationSpans_SingleTag_ReturnsSingleClassificationSpan()
+        {
+            // Arrange
+            var snapshot = new SnapshotStub("%h1".Split('\n'));
+            var snapshotSpan = new SnapshotSpan(snapshot, new Span(0, 3));
 
-        //    // Act
-        //    var spans = _classifier.GetClassificationSpans(snapshotSpan);
+            // Act
+            var spans = _classifier.GetClassificationSpans(snapshotSpan);
 
-        //    // Assert
-        //    Assert.Pass();
-        //}
+            // Assert
+            Assert.That(spans.Count, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void GetClassificationSpans_ComplexTag_ReturnsCorrectNumberOfClassificationSpans()
+        {
+            // Arrange
+            var snapshot = new SnapshotStub("%h1#id.class(a=b c='d')".Split('\n'));
+            var snapshotSpan = new SnapshotSpan(snapshot, new Span(0, snapshot.Length));
+
+            // Act
+            var spans = _classifier.GetClassificationSpans(snapshotSpan);
+
+            // Assert
+            Assert.That(spans.Count, Is.EqualTo(10));
+        }
     }
 }
