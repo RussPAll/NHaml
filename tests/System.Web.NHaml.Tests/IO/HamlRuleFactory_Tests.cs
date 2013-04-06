@@ -11,8 +11,8 @@ namespace NHaml.Tests.IO
         [TestCase("", HamlRuleEnum.PlainText, Description = "Empty string")]
         [TestCase(" ", HamlRuleEnum.PlainText, Description = "Single space")]
         [TestCase("%", HamlRuleEnum.Tag, Description = "Plain tag")]
-        [TestCase(".className", HamlRuleEnum.DivClass, Description = "Plain tag")]
-        [TestCase("#id", HamlRuleEnum.DivId, Description = "Plain tag")]
+        [TestCase(".className", HamlRuleEnum.Tag, Description = "Plain tag")]
+        [TestCase("#id", HamlRuleEnum.Tag, Description = "Plain tag")]
         [TestCase("%Tag", HamlRuleEnum.Tag, Description = "Plain tag")]
         [TestCase("/Tag", HamlRuleEnum.HtmlComment, Description = "HTML Comment")]
         [TestCase("-#Tag", HamlRuleEnum.HamlComment, Description = "Haml Comment")]
@@ -24,7 +24,8 @@ namespace NHaml.Tests.IO
         [TestCase("#{Var}", HamlRuleEnum.PlainText, Description = "Line starting with ruby-style variable")]
         public void Constructor_CalculatesRuleTypeCorrectly(string testString, HamlRuleEnum expectedRule)
         {
-            var rule = HamlRuleFactory.ParseHamlRule(ref testString);
+            int dummyInt;
+            var rule = HamlRuleFactory.ParseHamlRule(ref testString, out dummyInt);
             Assert.AreEqual(expectedRule, rule);
         }
 
@@ -42,7 +43,8 @@ namespace NHaml.Tests.IO
         [TestCase("#{var}", "#{var}", Description = "Line starting with ruby-style variable")]
         public void Constructor_ExtractsContentCorrectly(string testString, string expectedContent)
         {
-            HamlRuleFactory.ParseHamlRule(ref testString);
+            int dummyInt;
+            HamlRuleFactory.ParseHamlRule(ref testString, out dummyInt);
             Assert.AreEqual(expectedContent, testString);
         }
     }

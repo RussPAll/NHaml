@@ -9,8 +9,8 @@
     <ProjectGuid>{93D291E2-8DC2-4C03-B510-0506C74039DC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NHamlSyntaxHighlighter</RootNamespace>
-    <AssemblyName>NHamlSyntaxHighlighter</AssemblyName>
+    <RootNamespace>System.Web.NHaml.AddIn</RootNamespace>
+    <AssemblyName>System.Web.NHaml.AddIn</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <GeneratePkgDefFile>false</GeneratePkgDefFile>
@@ -55,9 +55,6 @@
     <Reference Include="Microsoft.VisualStudio.Text.UI.Wpf">
       <Private>False</Private>
     </Reference>
-    <Reference Include="Moq">
-      <HintPath>..\..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -77,8 +74,6 @@
     <Compile Include="NHamlSyntaxProvider.cs" />
     <Compile Include="NHamlClassifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SnapshotStub.cs" />
-    <Compile Include="TextSnapshotLineStub.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

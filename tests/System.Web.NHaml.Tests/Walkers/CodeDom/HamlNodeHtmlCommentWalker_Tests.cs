@@ -13,7 +13,7 @@ namespace NHaml.Tests.Walkers.CodeDom
     {
         private class BogusHamlNode : HamlNode
         {
-            public BogusHamlNode() : base(new HamlSourceFileMetrics(0, 0, -1), (string) "") { }
+            public BogusHamlNode() : base(new HamlSourceFileMetrics(0, 0, -1, 0), (string) "") { }
 
             protected override bool IsContentGeneratingTag
             {

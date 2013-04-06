@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using Microsoft.VisualStudio.Utilities;
 
-namespace NHamlSyntaxHighlighter
+namespace System.Web.NHaml.AddIn
 {
     static class ContentType
     {

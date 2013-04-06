@@ -18,7 +18,7 @@ namespace NHaml.IntegrationTests.Parser
 
     public class TestToken
     {
-
+        public string Type { get; set; }
         public int LineIndex { get; set; }
         public int StartIndex { get; set; }
         public int Length { get; set; }

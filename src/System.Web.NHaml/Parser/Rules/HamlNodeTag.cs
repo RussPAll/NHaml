@@ -66,7 +66,7 @@ namespace System.Web.NHaml.Parser.Rules
             char attributeEndChar = HtmlStringHelper.GetAttributeTerminatingChar(content[pos]);
             if (attributeEndChar != '\0')
             {
-                int startIndex = pos + 1;
+                int startIndex = pos + Metrics.TokenLength;
                 string attributes = HtmlStringHelper.ExtractTokenFromTagString(content, ref pos,
                                                                                new[] {attributeEndChar});
                 if (attributes[attributes.Length - 1] != attributeEndChar)
@@ -155,7 +155,7 @@ namespace System.Web.NHaml.Parser.Rules
 
         private void ParseTagIdNode(string content, ref int pos)
         {
-            int startIndex = pos + 1;
+            int startIndex = pos + Metrics.TokenLength;
             pos++;
             string tagId = GetHtmlToken(content, ref pos);
             var newTag = new HamlNodeTagId(Metrics.SubSpan(startIndex, tagId.Length + 1), tagId);
@@ -164,7 +164,7 @@ namespace System.Web.NHaml.Parser.Rules
 
         private void ParseClassNode(string content, ref int pos)
         {
-            int startIndex = pos + 1;
+            int startIndex = pos + Metrics.TokenLength;
             pos++;
             string className = GetHtmlToken(content, ref pos);
             var newTag = new HamlNodeTagClass(Metrics.SubSpan(startIndex, className.Length + 1), className);

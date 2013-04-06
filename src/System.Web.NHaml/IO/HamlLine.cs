@@ -7,7 +7,7 @@ namespace System.Web.NHaml.IO
     {
         public HamlLine(string content, HamlRuleEnum hamlRule, HamlSourceFileMetrics metrics = null, string indent = "", bool isInline = false)
         {
-            Metrics = metrics ?? new HamlSourceFileMetrics(0, -1, content.Length);
+            Metrics = metrics ?? new HamlSourceFileMetrics(0, -1, content.Length, 0);
             Content = content;
             Indent = isInline ? "" : indent;
             IndentCount = IsBlankLine(content, hamlRule)

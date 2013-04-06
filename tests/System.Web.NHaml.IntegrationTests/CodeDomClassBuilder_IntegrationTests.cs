@@ -34,9 +34,9 @@ namespace NHaml.IntegrationTests
             var classBuilder = new CodeDomClassBuilder();
             var valueFragments = new List<HamlNode>
                                      {
-                                         new HamlNodeTextLiteral(new HamlSourceFileMetrics(0, 0, 0), "value"),
-                                         new HamlNodeTextVariable(new HamlSourceFileMetrics(0, 0, 0), "#{Variable}"),
-                                         new HamlNodeTextLiteral(new HamlSourceFileMetrics(0, 0, 0), "value")
+                                         new HamlNodeTextLiteral(new HamlSourceFileMetrics(0, 0, 0, 0), "value"),
+                                         new HamlNodeTextVariable(new HamlSourceFileMetrics(0, 0, 0, 0), "#{Variable}"),
+                                         new HamlNodeTextLiteral(new HamlSourceFileMetrics(0, 0, 0, 0), "value")
                                      };
             classBuilder.AppendAttributeNameValuePair("name",
                 valueFragments, '\"');
@@ -57,8 +57,8 @@ namespace NHaml.IntegrationTests
         public void AppendMultipleAttributeNameValuePairs_XHtml4_CompilesValidTemplate()
         {
             var classBuilder = new CodeDomClassBuilder();
-            classBuilder.AppendAttributeNameValuePair("name", new List<HamlNode> { new HamlNodeTextLiteral(new HamlSourceFileMetrics(0, 0, 0), "value") }, '\"');
-            classBuilder.AppendAttributeNameValuePair("name", new List<HamlNode> { new HamlNodeTextLiteral(new HamlSourceFileMetrics(0, 0, 0), "value") }, '\"');
+            classBuilder.AppendAttributeNameValuePair("name", new List<HamlNode> { new HamlNodeTextLiteral(new HamlSourceFileMetrics(0, 0, 0, 0), "value") }, '\"');
+            classBuilder.AppendAttributeNameValuePair("name", new List<HamlNode> { new HamlNodeTextLiteral(new HamlSourceFileMetrics(0, 0, 0, 0), "value") }, '\"');
             string templateSource = classBuilder.Build(ClassName);
             var result = GenerateTemplateFromSource(templateSource);
 

@@ -64,7 +64,7 @@ namespace System.Web.NHaml.Walkers.CodeDom
             var classFragments = new List<HamlNode>();
             for (int index = 0; index < classTextContainers.Count; index++)
             {
-                if (index > 0) classFragments.Add(new HamlNodeTextLiteral(new HamlSourceFileMetrics(-1, -1, 1), " "));
+                if (index > 0) classFragments.Add(new HamlNodeTextLiteral(new HamlSourceFileMetrics(-1, -1, 1, 0), " "));
                 classFragments.AddRange(classTextContainers[index].Children);
             }
 
@@ -97,7 +97,7 @@ namespace System.Web.NHaml.Walkers.CodeDom
             var idFragments = new List<HamlNode>();
             for (int index = 0; index < idValues.Count; index++)
             {
-                if (index > 0) idFragments.Add(new HamlNodeTextLiteral(new HamlSourceFileMetrics(-1, -1, 1), "_"));
+                if (index > 0) idFragments.Add(new HamlNodeTextLiteral(new HamlSourceFileMetrics(-1, -1, 1, 0), "_"));
                 idFragments.AddRange(idValues[index].Children);
             }
 

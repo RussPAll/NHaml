@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Web.NHaml.IO;
 using System.Web.NHaml.Parser;
 using NUnit.Framework;
@@ -10,33 +11,15 @@ namespace NHaml.IntegrationTests.Parser
     // ReSharper disable InconsistentNaming
     public class HamlDocumentParser_GeneratesCorrectContentIndexes
     {
-        [Test]
-        public void HamlDocumentParser_JsonFiles_GeneratesCorrectContentIndexes()
+        [TestCase("simple tag")]
+        [TestCase("tag with property")]
+        [TestCase("tag with multiple classes")]
+        //[TestCase("tag followed by whitespace")]
+        public void HamlDocumentParser_JsonFiles_GeneratesCorrectContentIndexes(string testToExecute)
         {
             var documentList = TestDocumentLoader.LoadDocumentList();
-            foreach (var document in documentList)
-            {
-                string testName = document.Name;
-                int failCount = 0;
-
-                try
-                {
-                    ExecuteSingleTest(document);
-                    Console.WriteLine("PASS : " + testName + "\n");
-                }
-                catch (Exception ex)
-                {
-                    failCount++;
-                    Console.WriteLine("FAIL - " + testName + "\n");
-                    Console.WriteLine(ex.Message);
-                }
-
-                Assert.That(failCount, Is.EqualTo(0));
-            }
-        }
-
-        private void ExecuteSingleTest(TestDocument document)
-        {
+            var document = documentList.Single(x => x.Name == testToExecute);
+            
             var hamlFile = new HamlFileLexer().Read(document.Content);
             var hamlTree = new HamlTreeParser().ParseHamlFile(hamlFile);
 
@@ -50,9 +33,11 @@ namespace NHaml.IntegrationTests.Parser
             {
                 Console.WriteLine("Verifying token " + tokenIndex);
                 var token = tokenList[tokenIndex];
+                Assert.That(child.GetType().ToString(), Is.StringContaining(token.Type));
                 Assert.That(child.Metrics.LineNo, Is.EqualTo(token.LineIndex));
                 Assert.That(child.Metrics.ColNo, Is.EqualTo(token.StartIndex));
                 Assert.That(child.Metrics.Length, Is.EqualTo(token.Length));
+                Console.WriteLine("Pass token " + tokenIndex);
                 tokenIndex++;
 
                 VerifyTokens(child, ref tokenIndex, tokenList);

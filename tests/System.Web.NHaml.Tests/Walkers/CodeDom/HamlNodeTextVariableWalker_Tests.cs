@@ -22,7 +22,7 @@ namespace NHaml.Tests.Walkers.CodeDom
         [TestCase("#{Test}", "Test")]
         public void Walk_SimpleVariableName_CallsAppendVariableCorrectly(string variableName, string expectedCall)
         {
-            var node = new HamlNodeTextVariable(new HamlSourceFileMetrics(0, 0, 0), variableName);
+            var node = new HamlNodeTextVariable(new HamlSourceFileMetrics(0, 0, 0, 0), variableName);
             var walker = new HamlNodeTextVariableWalker(_mockClassBuilder.Object, new HamlHtmlOptions());
             walker.Walk(node);
             _mockClassBuilder.Verify(x => x.AppendVariable(expectedCall));
@@ -35,7 +35,7 @@ namespace NHaml.Tests.Walkers.CodeDom
         [TestCase("#{new Object()}", "new Object()")]
         public void Walk_ComplexPropertyName_CallsCodeSnippetToStringCorrectly(string variableName, string expectedCodeSnippet)
         {
-            var node = new HamlNodeTextVariable(new HamlSourceFileMetrics(0, 0, 0), variableName);
+            var node = new HamlNodeTextVariable(new HamlSourceFileMetrics(0, 0, 0, 0), variableName);
             var walker = new HamlNodeTextVariableWalker(_mockClassBuilder.Object, new HamlHtmlOptions());
             walker.Walk(node);
             _mockClassBuilder.Verify(x => x.AppendCodeToString(expectedCodeSnippet));

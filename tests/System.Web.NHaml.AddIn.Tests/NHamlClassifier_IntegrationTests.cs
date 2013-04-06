@@ -1,7 +1,7 @@
-﻿using Microsoft.VisualStudio.Text;
+﻿using System.Collections.Generic;
+using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
 using Moq;
-using NHamlSyntaxHighlighter;
 using NUnit.Framework;
 
 namespace System.Web.NHaml.AddIn.Tests
@@ -46,6 +46,24 @@ namespace System.Web.NHaml.AddIn.Tests
 
             // Assert
             Assert.That(spans.Count, Is.EqualTo(10));
+        }
+
+        [Test]
+        public void GetClassificationSpans_MultiLineTag_ReturnsSecondLineCorrectly()
+        {
+            // Arrange
+            var snapshot = new SnapshotStub("%h1\n%h2".Split('\n'));
+            var snapshotSpan = new SnapshotSpan(snapshot, new Span(5, 3));
+
+            // Act
+            var spans = _classifier.GetClassificationSpans(snapshotSpan);
+
+            // Assert
+            Assert.That(spans.Count, Is.EqualTo(1));
+            var span = spans[0];
+
+            Assert.That(span.Span.Start.Position, Is.EqualTo(5));
+            Assert.That(span.Span.Length, Is.EqualTo(3));
         }
     }
 }

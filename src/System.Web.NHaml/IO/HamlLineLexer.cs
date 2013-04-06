@@ -17,10 +17,10 @@ namespace System.Web.NHaml.IO
 
             string indent = currentLine.Substring(0, whiteSpaceIndex);
             string content = (whiteSpaceIndex == currentLine.Length) ? "" : currentLine.Substring(whiteSpaceIndex);
-            content = AddImplicitDivTag(content);
-            var hamlRule = HamlRuleFactory.ParseHamlRule(ref content);
+            int tokenLength = 0;
+            var hamlRule = HamlRuleFactory.ParseHamlRule(ref content, out tokenLength);
 
-            var metrics = new HamlSourceFileMetrics(currentLineIndex, 0, currentLine.Length);
+            var metrics = new HamlSourceFileMetrics(currentLineIndex, whiteSpaceIndex, currentLine.Length - whiteSpaceIndex, tokenLength);
             var result = new List<HamlLine>();
             var line = new HamlLine(content, hamlRule, metrics, indent, false);
 
@@ -37,9 +37,9 @@ namespace System.Web.NHaml.IO
                 {
                     string subTag = line.Content.Substring(contentIndex).TrimStart();
                     line.Content = line.Content.Substring(0, contentIndex).Trim();
-                    subTag = AddImplicitDivTag(subTag);
-                    var subTagRule = HamlRuleFactory.ParseHamlRule(ref subTag);
-                    var metrics = new HamlSourceFileMetrics(line.Metrics.LineNo, contentIndex, subTag.Length);
+                    int tokenLength;
+                    var subTagRule = HamlRuleFactory.ParseHamlRule(ref subTag, out tokenLength);
+                    var metrics = new HamlSourceFileMetrics(line.Metrics.LineNo, contentIndex, subTag.Length, tokenLength);
                     var subLine = new HamlLine(subTag, subTagRule, metrics, line.Indent + "\t", isInline: true);
                     ProcessInlineTags(subLine, result);
                 }
@@ -50,14 +50,6 @@ namespace System.Web.NHaml.IO
         private static bool IsRuleThatAllowsInlineContent(HamlRuleEnum hamlRule)
         {
             return hamlRule == HamlRuleEnum.Tag || hamlRule == HamlRuleEnum.DivId || hamlRule == HamlRuleEnum.DivClass;
-        }
-
-        private static string AddImplicitDivTag(string content)
-        {
-            if (content.Length > 1 && content.StartsWith("#{")) return content;
-            if (content.Length > 0)
-                return (content[0] == '.' || content[0] == '#') ? "%" + content : content;
-            return string.Empty;
         }
 
         internal static int GetEndOfTagIndex(string currentLine)

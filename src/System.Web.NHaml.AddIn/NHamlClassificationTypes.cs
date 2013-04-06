@@ -2,13 +2,17 @@
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Utilities;
 
-namespace NHamlSyntaxHighlighter
+namespace System.Web.NHaml.AddIn
 {
     class NHamlClassificationTypes
     {
         [Export]
         [Name("nhaml")]
         internal static ClassificationTypeDefinition NHamlClassificationDefinition = null;
+
+        [Export]
+        [Name("nhaml.docType")]
+        internal static ClassificationTypeDefinition NHamlDocTypeClassificationDefinition = null;
 
         [Export]
         [Name("nhaml.tag")]

@@ -91,8 +91,8 @@ namespace NHaml.Tests.Walkers.CodeDom
             const string tagId = "id";
             const string tagClass = "class";
             var tagNode = new HamlNodeTag(new HamlLine("p", HamlRuleEnum.Tag, indent: ""));
-            tagNode.AddChild(new HamlNodeTagId(new HamlSourceFileMetrics(0, 0, 0), tagId));
-            tagNode.AddChild(new HamlNodeTagClass(new HamlSourceFileMetrics(0, 0, 0), tagClass));
+            tagNode.AddChild(new HamlNodeTagId(new HamlSourceFileMetrics(0, 0, 0, 0), tagId));
+            tagNode.AddChild(new HamlNodeTagClass(new HamlSourceFileMetrics(0, 0, 0, 0), tagClass));
 
             // Act
             _tagWalker.Walk(tagNode);
@@ -109,8 +109,8 @@ namespace NHaml.Tests.Walkers.CodeDom
             const string tagId = "id";
             const string tagClass = "class";
             var tagNode = new HamlNodeTag(new HamlLine("p", HamlRuleEnum.Tag, indent: ""));
-            tagNode.AddChild(new HamlNodeTagClass(new HamlSourceFileMetrics(0, 0, 0), tagClass));
-            tagNode.AddChild(new HamlNodeTagId(new HamlSourceFileMetrics(0, 0, 0), tagId));
+            tagNode.AddChild(new HamlNodeTagClass(new HamlSourceFileMetrics(0, 0, 0, 0), tagClass));
+            tagNode.AddChild(new HamlNodeTagId(new HamlSourceFileMetrics(0, 0, 0, 0), tagId));
 
             // Act
             _tagWalker.Walk(tagNode);
@@ -125,8 +125,8 @@ namespace NHaml.Tests.Walkers.CodeDom
         {
             // Arrange
             var tagNode = new HamlNodeTag(new HamlLine("p", HamlRuleEnum.Tag, indent: ""));
-            tagNode.AddChild(new HamlNodeTagClass(new HamlSourceFileMetrics(0, 0, 0), "class1"));
-            tagNode.AddChild(new HamlNodeTagClass(new HamlSourceFileMetrics(0, 0, 0), "class2"));
+            tagNode.AddChild(new HamlNodeTagClass(new HamlSourceFileMetrics(0, 0, 0, 0), "class1"));
+            tagNode.AddChild(new HamlNodeTagClass(new HamlSourceFileMetrics(0, 0, 0, 0), "class2"));
 
             // Act
             _tagWalker.Walk(tagNode);
@@ -141,8 +141,8 @@ namespace NHaml.Tests.Walkers.CodeDom
         {
             // Arrange
             var tagNode = new HamlNodeTag(new HamlLine("p", HamlRuleEnum.Tag, indent: ""));
-            tagNode.AddChild(new HamlNodeTagId(new HamlSourceFileMetrics(0, 0, 0), "id1"));
-            tagNode.AddChild(new HamlNodeTagId(new HamlSourceFileMetrics(0, 0, 0), "id2"));
+            tagNode.AddChild(new HamlNodeTagId(new HamlSourceFileMetrics(0, 0, 0, 0), "id1"));
+            tagNode.AddChild(new HamlNodeTagId(new HamlSourceFileMetrics(0, 0, 0, 0), "id2"));
 
             // Act
             _tagWalker.Walk(tagNode);
@@ -157,7 +157,7 @@ namespace NHaml.Tests.Walkers.CodeDom
         {
             // Arrange
             var tagNode = new HamlNodeTag(new HamlLine("p", HamlRuleEnum.Tag, indent: ""));
-            tagNode.AddChild(new HamlNodeHtmlAttributeCollection(new HamlSourceFileMetrics(0, 0, 0), (string) "(id='id')"));
+            tagNode.AddChild(new HamlNodeHtmlAttributeCollection(new HamlSourceFileMetrics(0, 0, 0, 0), (string) "(id='id')"));
 
             // Act
             _tagWalker.Walk(tagNode);
@@ -173,7 +173,7 @@ namespace NHaml.Tests.Walkers.CodeDom
         {
             // Arrange
             var tagNode = new HamlNodeTag(new HamlLine("p", HamlRuleEnum.Tag, indent: ""));
-            tagNode.AddChild(new HamlNodeHtmlAttributeCollection(new HamlSourceFileMetrics(0, 0, 0), (string) "(class='class')"));
+            tagNode.AddChild(new HamlNodeHtmlAttributeCollection(new HamlSourceFileMetrics(0, 0, 0, 0), (string) "(class='class')"));
 
             // Act
             _tagWalker.Walk(tagNode);
@@ -188,8 +188,8 @@ namespace NHaml.Tests.Walkers.CodeDom
         {
             // Arrange
             var tagNode = new HamlNodeTag(new HamlLine("p", HamlRuleEnum.Tag, indent: ""));
-            tagNode.AddChild(new HamlNodeTagId(new HamlSourceFileMetrics(0, 0, 0), "id1"));
-            tagNode.AddChild(new HamlNodeHtmlAttributeCollection(new HamlSourceFileMetrics(0, 0, 0), (string) "(id='id2')"));
+            tagNode.AddChild(new HamlNodeTagId(new HamlSourceFileMetrics(0, 0, 0, 0), "id1"));
+            tagNode.AddChild(new HamlNodeHtmlAttributeCollection(new HamlSourceFileMetrics(0, 0, 0, 0), (string) "(id='id2')"));
 
             // Act
             _tagWalker.Walk(tagNode);
@@ -204,8 +204,8 @@ namespace NHaml.Tests.Walkers.CodeDom
         {
             // Arrange
             var tagNode = new HamlNodeTag(new HamlLine("p", HamlRuleEnum.Tag, indent: ""));
-            tagNode.AddChild(new HamlNodeTagClass(new HamlSourceFileMetrics(0, 0, 0), "class2"));
-            tagNode.AddChild(new HamlNodeHtmlAttributeCollection(new HamlSourceFileMetrics(0, 0, 0), (string) "(class='class1')"));
+            tagNode.AddChild(new HamlNodeTagClass(new HamlSourceFileMetrics(0, 0, 0, 0), "class2"));
+            tagNode.AddChild(new HamlNodeHtmlAttributeCollection(new HamlSourceFileMetrics(0, 0, 0, 0), (string) "(class='class1')"));
 
             // Act
             _tagWalker.Walk(tagNode);
@@ -222,7 +222,7 @@ namespace NHaml.Tests.Walkers.CodeDom
         public void Walk_EmptyAttributeCollectionNode_WritesCorrectAttributes(string tag, string attributes, string expectedOutput)
         {
             var tagNode = new HamlNodeTag(new HamlLine(tag, HamlRuleEnum.Tag, indent: ""));
-            tagNode.AddChild(new HamlNodeHtmlAttributeCollection(new HamlSourceFileMetrics(0, 0, 0), attributes));
+            tagNode.AddChild(new HamlNodeHtmlAttributeCollection(new HamlSourceFileMetrics(0, 0, 0, 0), attributes));
 
             _tagWalker.Walk(tagNode);
 

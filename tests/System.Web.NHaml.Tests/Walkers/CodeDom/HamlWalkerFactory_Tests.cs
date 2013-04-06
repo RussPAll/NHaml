@@ -25,7 +25,7 @@ namespace NHaml.Tests.Walkers.CodeDom
         [TestCase(typeof(HamlNodePartial), typeof(HamlPartialWalker))]
         public void GetNodeWalker_VariousNodeTypes_ReturnsCorrectWalker(Type nodeType, Type expectedWalkerType)
         {
-            var walker = HamlWalkerFactory.GetNodeWalker(nodeType, new HamlSourceFileMetrics(0, 0, 0), new Mocks.ClassBuilderMock(), new HamlHtmlOptions());
+            var walker = HamlWalkerFactory.GetNodeWalker(nodeType, new HamlSourceFileMetrics(0, 0, 0, 0), new Mocks.ClassBuilderMock(), new HamlHtmlOptions());
             Assert.That(walker, Is.InstanceOf(expectedWalkerType));
         }
     }

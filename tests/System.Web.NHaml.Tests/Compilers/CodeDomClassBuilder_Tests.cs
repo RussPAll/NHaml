@@ -107,7 +107,7 @@ namespace NHaml.Tests.Compilers
         public void AppendAttributeNameValuePair_TextLiteralHamlNode_AppendsRenderAttributeNameValuePair()
         {
             var classBuilder = new CodeDomClassBuilder();
-            var valueNodes = new List<HamlNode> { new HamlNodeTextLiteral(new HamlSourceFileMetrics(0, 0, 0), "value") };
+            var valueNodes = new List<HamlNode> { new HamlNodeTextLiteral(new HamlSourceFileMetrics(0, 0, 0, 0), "value") };
             classBuilder.AppendAttributeNameValuePair("Name", valueNodes, '\"');
             string result = classBuilder.Build(ClassName);
             Assert.That(result, Is.StringContaining("= new System.Text.StringBuilder();"));
@@ -130,8 +130,8 @@ namespace NHaml.Tests.Compilers
             var classBuilder = new CodeDomClassBuilder();
             var valueFragments = new List<HamlNode>
                                      {
-                                         new HamlNodeTextLiteral(new HamlSourceFileMetrics(0, 0, 0), "value1"),
-                                         new HamlNodeTextVariable(new HamlSourceFileMetrics(0, 0, 0), "#{variable}")
+                                         new HamlNodeTextLiteral(new HamlSourceFileMetrics(0, 0, 0, 0), "value1"),
+                                         new HamlNodeTextVariable(new HamlSourceFileMetrics(0, 0, 0, 0), "#{variable}")
                                      };
             classBuilder.AppendAttributeNameValuePair("Name", valueFragments, '\"');
             string result = classBuilder.Build(ClassName);
@@ -145,7 +145,7 @@ namespace NHaml.Tests.Compilers
             var classBuilder = new CodeDomClassBuilder();
             var valueFragments = new List<HamlNode>
                                      {
-                                         new HamlNodeTextVariable(new HamlSourceFileMetrics(0, 0, 0), "#{Model.Property}")
+                                         new HamlNodeTextVariable(new HamlSourceFileMetrics(0, 0, 0, 0), "#{Model.Property}")
                                      };
             classBuilder.AppendAttributeNameValuePair("Name", valueFragments, '\"');
             string result = classBuilder.Build(ClassName);

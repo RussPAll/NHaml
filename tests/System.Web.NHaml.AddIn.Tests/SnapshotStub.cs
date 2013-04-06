@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Utilities;
 using Moq;
 
-namespace NHamlSyntaxHighlighter
+namespace System.Web.NHaml.AddIn
 {
     public class SnapshotStub : ITextSnapshot
     {

@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Utilities;
 
-namespace NHamlSyntaxHighlighter
+namespace System.Web.NHaml.AddIn
 {
     [Export(typeof(IClassifierProvider))]
     [ContentType(ContentType.NHaml)]

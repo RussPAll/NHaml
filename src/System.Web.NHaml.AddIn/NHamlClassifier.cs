@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Web.NHaml.IO;
 using System.Web.NHaml.Parser;
 using System.Web.NHaml.Parser.Rules;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
 
-namespace NHamlSyntaxHighlighter
+namespace System.Web.NHaml.AddIn
 {
     public class NHamlClassifier : IClassifier
     {
@@ -59,16 +58,16 @@ namespace NHamlSyntaxHighlighter
             return spans;
         }
 
-        private void AddClassificationSpans(SnapshotSpan snapshotSpan, List<ClassificationSpan> spans, HamlNode node)
+        private void AddClassificationSpans(SnapshotSpan span, List<ClassificationSpan> spans, HamlNode node)
         {
             if (node.Metrics.Length > 0 && node.Metrics.ColNo >= 0)
             {
-                var span = new SnapshotSpan(snapshotSpan.Snapshot, node.Metrics.ColNo, node.Metrics.Length);
+                var classifiedSpan = new SnapshotSpan(span.Snapshot, span.Start.Position + node.Metrics.ColNo, node.Metrics.Length);
                 var type = GetClassificationTypeForMarkdownToken(node.GetType());
-                spans.Add(new ClassificationSpan(span, type));
+                spans.Add(new ClassificationSpan(classifiedSpan, type));
             }
             foreach (var childNode in node.Children)
-                AddClassificationSpans(snapshotSpan, spans, childNode);
+                AddClassificationSpans(span, spans, childNode);
         }
 
         static readonly Dictionary<Type, string> TokenToClassificationType = new Dictionary<Type, string>

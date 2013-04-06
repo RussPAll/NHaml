@@ -13,7 +13,7 @@ namespace NHaml.Tests.Parser.Rules
         {
             string comment = "Test comment";
 
-            var node = new HamlNodeHtmlComment(new HamlLine(comment, HamlRuleEnum.HtmlComment, new HamlSourceFileMetrics(0, 0, 0), indent: ""));
+            var node = new HamlNodeHtmlComment(new HamlLine(comment, HamlRuleEnum.HtmlComment, new HamlSourceFileMetrics(0, 0, 0, 0), indent: ""));
             Assert.That(node.Content, Is.EqualTo(comment));
         }    
     }
