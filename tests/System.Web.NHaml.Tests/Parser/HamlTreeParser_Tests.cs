@@ -108,7 +108,7 @@ namespace NHaml.Tests.Parser
 
             var file = new HamlFile("");
             file.AddLine(line);
-            Assert.Throws<HamlUnknownRuleException>(() => _parser.ParseHamlFile(file));           
+            Assert.Throws<HamlParserUnknownRuleException>(() => _parser.ParseHamlFile(file));           
         }
     }
 }

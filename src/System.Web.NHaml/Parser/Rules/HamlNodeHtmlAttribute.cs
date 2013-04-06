@@ -22,8 +22,15 @@ namespace System.Web.NHaml.Parser.Rules
             if (index >= Content.Length) return;
 
             string value = Content.Substring(index + 1);
+            HamlNode childNode = null;
+            if (IsQuoted(value))
+                childNode = new HamlNodeTextContainer(Metrics.SubSpan(index + 2, value.Length-2),
+                    RemoveQuotes(value));
+            else
+                childNode = new HamlNodeTextVariable(Metrics.SubSpan(index + 1, value.Length),
+                    RemoveQuotes(value));
 
-            AddChild(new HamlNodeTextContainer(Metrics.SubSpan(index + 1, value.Length), GetValue(value)));
+            AddChild(childNode);
         }
 
         protected override bool IsContentGeneratingTag
@@ -45,19 +52,9 @@ namespace System.Web.NHaml.Parser.Rules
         {
             string result = HtmlStringHelper.ExtractTokenFromTagString(Content, ref index, new[] { '=', '\0' });
             if (string.IsNullOrEmpty(result))
-                throw new HamlMalformedTagException("Malformed HTML attribute \"" + Content + "\"", Metrics);
+                throw new HamlParserMalformedTagException("Malformed HTML attribute \"" + Content + "\"", Metrics);
 
             _name = result.TrimEnd('=');
-        }
-
-        private string GetValue(string value)
-        {
-            if (IsQuoted(value))
-                return RemoveQuotes(value);
-            else if (IsVariable(value))
-                return value;
-            else
-                return "#{" + value + "}";
         }
 
         private bool IsVariable(string value)

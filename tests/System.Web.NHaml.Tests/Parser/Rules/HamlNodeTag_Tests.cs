@@ -140,7 +140,7 @@ namespace NHaml.Tests.Parser.Rules
             const string templateLine = "p(a='b'";
             var line = new HamlLine(templateLine, HamlRuleEnum.Tag, indent: "");
 
-            Assert.Throws<HamlMalformedTagException>(() => new HamlNodeTag(line));
+            Assert.Throws<HamlParserMalformedTagException>(() => new HamlNodeTag(line));
         }
 
         [Test]

@@ -36,7 +36,7 @@ namespace System.Web.NHaml.IO
             while (HamlLineLexer.GetEndOfTagIndex(currentLine) < 0)
             {
                 if (_eof)
-                    throw new HamlMalformedTagException("Multi-line tag found with no end token.", _sourceFileLineIndex);
+                    throw new HamlParserMalformedTagException("Multi-line tag found with no end token.", _sourceFileLineIndex);
                 currentLine += " " + ReadLine(reader);
             }
 

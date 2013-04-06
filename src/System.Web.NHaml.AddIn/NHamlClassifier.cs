@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.NHaml.IO;
 using System.Web.NHaml.Parser;
+using System.Web.NHaml.Parser.Exceptions;
 using System.Web.NHaml.Parser.Rules;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
@@ -50,11 +51,17 @@ namespace System.Web.NHaml.AddIn
             ITextSnapshot snapshot = span.Snapshot;
             string text = snapshot.GetText(span);
 
-            var document = new HamlTreeParser()
-                .ParseHamlFile(new HamlFileLexer().Read(text));
-
             var spans = new List<ClassificationSpan>();
-            AddClassificationSpans(span, spans, document);
+            try
+            {
+                var document = new HamlTreeParser()
+                    .ParseHamlFile(new HamlFileLexer().Read(text));
+                AddClassificationSpans(span, spans, document);
+            }
+            catch (HamlParserException)
+            { }
+
+
             return spans;
         }
 

@@ -20,7 +20,7 @@ namespace System.Web.NHaml.Parser.Rules
             : base(metrics, content)
         {
             if (string.IsNullOrEmpty(content))
-                AddChild(new HamlNodeTextLiteral(Metrics.SubSpan(1, 0), content));
+                AddChild(new HamlNodeTextLiteral(Metrics.SubSpan(0, 0), content));
             else
                 ParseFragments(content);
         }
@@ -51,14 +51,14 @@ namespace System.Web.NHaml.Parser.Rules
                     {
                         index++;
                         return (result.Length > 3)
-                            ? new HamlNodeTextVariable(Metrics.SubSpan(1, result.Length), result)
+                            ? new HamlNodeTextVariable(Metrics.SubSpan(0, result.Length), result)
                             : (HamlNode)new HamlNodeTextLiteral(Metrics.SubSpan(1, result.Length), result);
                     }
                 }
                 else if (IsTagToken(content, index))
                 {
                     if (isEscaped == false)
-                        return new HamlNodeTextLiteral(Metrics.SubSpan(1, result.Length), result);
+                        return new HamlNodeTextLiteral(Metrics.SubSpan(0, result.Length), result);
                     result = RemoveEscapeCharacter(result) + content[index];
                 }
                 else
@@ -73,9 +73,9 @@ namespace System.Web.NHaml.Parser.Rules
             }
 
             if (isInTag)
-                throw new HamlMalformedVariableException(result, Metrics);
+                throw new HamlParserMalformedVariableException(result, Metrics);
 
-            return new HamlNodeTextLiteral(Metrics.SubSpan(1, result.Length), result);
+            return new HamlNodeTextLiteral(Metrics.SubSpan(0, content.Length + Metrics.TokenLength), result);
         }
 
         private static string RemoveEscapeCharacter(string result)

@@ -100,6 +100,7 @@
     <Compile Include="IO\HamlSourceFileMetrics.cs" />
     <Compile Include="ITemplateEngine.cs" />
     <Compile Include="IViewSourceParser.cs" />
+    <Compile Include="Parser\Exceptions\HamlParserException.cs" />
     <Compile Include="Parser\Rules\HamlNodeDocType.cs" />
     <Compile Include="Parser\Rules\HamlNodePartial.cs" />
     <Compile Include="ViewSourceParser.cs" />

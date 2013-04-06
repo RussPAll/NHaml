@@ -14,7 +14,8 @@ namespace NHaml.IntegrationTests.Parser
         [TestCase("simple tag")]
         [TestCase("tag with property")]
         [TestCase("tag with multiple classes")]
-        //[TestCase("tag followed by whitespace")]
+        [TestCase("tag followed by whitespace")]
+        [TestCase("indented tag followed by whitespace")]
         public void HamlDocumentParser_JsonFiles_GeneratesCorrectContentIndexes(string testToExecute)
         {
             var documentList = TestDocumentLoader.LoadDocumentList();
@@ -31,8 +32,8 @@ namespace NHaml.IntegrationTests.Parser
         {
             foreach (var child in node.Children)
             {
-                Console.WriteLine("Verifying token " + tokenIndex);
                 var token = tokenList[tokenIndex];
+                Console.WriteLine("Verifying token " + token.Type + " [" + tokenIndex + "]");
                 Assert.That(child.GetType().ToString(), Is.StringContaining(token.Type));
                 Assert.That(child.Metrics.LineNo, Is.EqualTo(token.LineIndex));
                 Assert.That(child.Metrics.ColNo, Is.EqualTo(token.StartIndex));

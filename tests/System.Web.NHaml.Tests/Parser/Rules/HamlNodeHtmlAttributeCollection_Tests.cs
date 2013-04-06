@@ -45,9 +45,9 @@ namespace NHaml.Tests.Parser.Rules
         }
 
         [Test]
-        [TestCase("(a=b, c=d)", "a", "#{b}")]
+        [TestCase("(a=b, c=d)", "a", "b")]
         [TestCase("(a='b',c=d)", "a", "b")]
-        [TestCase("(a=This.That, c=d)", "a", "#{This.That}")]
+        [TestCase("(a=#{This.That}, c=d)", "a", "#{This.That}")]
         public void Constructor_CommaSeparatedAttributes_ParsesCorrectly(
             string attributeString, string expectedName, string expectedValue)
         {

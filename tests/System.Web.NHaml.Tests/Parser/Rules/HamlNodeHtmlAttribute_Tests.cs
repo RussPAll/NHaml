@@ -35,8 +35,7 @@ namespace NHaml.Tests.Parser.Rules
 
         [Test]
         [TestCase("a='b'", "b", typeof(HamlNodeTextLiteral))]
-        [TestCase("a=b", "#{b}", typeof(HamlNodeTextVariable))]
-        public void Constructor_ValueWithAndWithoutQuotes_GeneratesCorrectContent(
+        public void Constructor_ValueWithQuotes_GeneratesCorrectContent(
             string nodeText, string expectedContent, Type expectedType)
         {
             var node = new HamlNodeHtmlAttribute(new HamlSourceFileMetrics(0, 0, 0, 0), nodeText);
@@ -45,16 +44,26 @@ namespace NHaml.Tests.Parser.Rules
         }
 
         [Test]
+        [TestCase("a=b", "b", typeof(HamlNodeTextVariable))]
+        public void Constructor_ValueWithoutQuotes_GeneratesCorrectContent(
+            string nodeText, string expectedContent, Type expectedType)
+        {
+            var node = new HamlNodeHtmlAttribute(new HamlSourceFileMetrics(0, 0, 0, 0), nodeText);
+            Assert.That(node.Children.First(), Is.InstanceOf(expectedType));
+            Assert.That(node.Children.First().Content, Is.EqualTo(expectedContent));
+        }
+
+        [Test]
         public void Constructor_ValueWithoutQuotes_ConvertsValueToVariable()
         {
             var node = new HamlNodeHtmlAttribute(new HamlSourceFileMetrics(0, 0, 0, 0), "a=#{b}");
-            Assert.That(node.Children.First().Children.First(), Is.InstanceOf<HamlNodeTextVariable>());
-            Assert.That(node.Children.First().Children.First().Content, Is.EqualTo("#{b}"));
+            Assert.That(node.Children.First(), Is.InstanceOf<HamlNodeTextVariable>());
+            Assert.That(node.Children.First().Content, Is.EqualTo("#{b}"));
         }
 
         public void Constructor_MalformedAttribute_ThrowsException()
         {
-            Assert.Throws<HamlMalformedTagException>(() => new HamlNodeHtmlAttribute(new HamlSourceFileMetrics(0, 0, 0, 0), "=b"));
+            Assert.Throws<HamlParserMalformedTagException>(() => new HamlNodeHtmlAttribute(new HamlSourceFileMetrics(0, 0, 0, 0), "=b"));
 
         }
 

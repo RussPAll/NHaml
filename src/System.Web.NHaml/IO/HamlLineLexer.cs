@@ -35,11 +35,13 @@ namespace System.Web.NHaml.IO
                 int contentIndex = GetEndOfTagIndex('%' + line.Content)-1;
                 if (contentIndex < line.Content.Length-1)
                 {
-                    string subTag = line.Content.Substring(contentIndex).TrimStart();
-                    line.Content = line.Content.Substring(0, contentIndex).Trim();
+                    string subTag = line.Content.Substring(contentIndex);
+                    line.Content = line.Content.Substring(0, contentIndex);
                     int tokenLength;
                     var subTagRule = HamlRuleFactory.ParseHamlRule(ref subTag, out tokenLength);
-                    var metrics = new HamlSourceFileMetrics(line.Metrics.LineNo, contentIndex, subTag.Length, tokenLength);
+                    var colNo = contentIndex + line.Metrics.TokenLength;
+                    var metrics = new HamlSourceFileMetrics(line.Metrics.LineNo,
+                        line.Metrics.ColNo + colNo, line.Metrics.Length - colNo, tokenLength);
                     var subLine = new HamlLine(subTag, subTagRule, metrics, line.Indent + "\t", isInline: true);
                     ProcessInlineTags(subLine, result);
                 }

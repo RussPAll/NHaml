@@ -29,7 +29,7 @@ namespace NHaml.Tests.Parser
         public void GetHamlNode_TagSubTypes_ThrowsHamlUnknownRuleException(HamlRuleEnum rule, Type nodeType)
         {
             var line = new HamlLine("Blah", rule, indent: "");
-            Assert.Throws<HamlUnknownRuleException>(() => HamlNodeFactory.GetHamlNode(line));
+            Assert.Throws<HamlParserUnknownRuleException>(() => HamlNodeFactory.GetHamlNode(line));
         }
     }
 }

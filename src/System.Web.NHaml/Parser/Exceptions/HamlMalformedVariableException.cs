@@ -3,9 +3,9 @@
 namespace System.Web.NHaml.Parser.Exceptions
 {
     [Serializable]
-    public class HamlMalformedVariableException : Exception
+    public class HamlParserMalformedVariableException : HamlParserException
     {
-        public HamlMalformedVariableException(string variable, HamlSourceFileMetrics metrics)
+        public HamlParserMalformedVariableException(string variable, HamlSourceFileMetrics metrics)
             : base(string.Format("Malformed variable at {0} : {1}", metrics, variable))
         { }
     }

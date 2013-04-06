@@ -16,7 +16,7 @@
             { "Type" : "HamlNodeTag", "LineIndex" : 1, "StartIndex" : 0, "Length" : 9 },
             { "Type" : "HamlNodeHtmlAttributeCollection", "LineIndex" : 1, "StartIndex" : 2, "Length" : 7 },
             { "Type" : "HamlNodeHtmlAttribute", "LineIndex" : 1, "StartIndex" : 3, "Length" : 5 },
-            { "Type": "HamlNodeTextContainer", "LineIndex": 1, "StartIndex": 5, "Length": 3 },
+            { "Type": "HamlNodeTextContainer", "LineIndex": 1, "StartIndex": 6, "Length": 1 },
             { "Type": "HamlNodeTextLiteral", "LineIndex": 1, "StartIndex": 6, "Length": 1 }
 
         ]
@@ -32,14 +32,24 @@
             { "Type" : "HamlNodeTagClass", "LineIndex" : 1, "StartIndex" : 24, "Length" : 15 },
         ]
     },
-    
+
     {
         "Name": "tag followed by whitespace",
         "Content": "%tag text",
-        "TokenList" : [
-            { "Type" : "HamlNodeTag", "LineIndex" : 1, "StartIndex" : 0, "Length" : 9 },
-            { "Type" : "HamlNodeTextContainer", "LineIndex" : 1, "StartIndex" : 5, "Length" : 4 },
-            { "Type" : "HamlNodeTextLiteral", "LineIndex" : 1, "StartIndex" : 5, "Length" : 4 }
+        "TokenList": [
+            { "Type": "HamlNodeTag", "LineIndex": 1, "StartIndex": 0, "Length": 9 },
+            { "Type": "HamlNodeTextContainer", "LineIndex": 1, "StartIndex": 4, "Length": 5 },
+            { "Type": "HamlNodeTextLiteral", "LineIndex": 1, "StartIndex": 4, "Length": 5 }
+        ]
+    },
+
+    {
+        "Name": "indented tag followed by whitespace",
+        "Content": " %tag text",
+        "TokenList": [
+            { "Type": "HamlNodeTag", "LineIndex": 1, "StartIndex": 1, "Length": 9 },
+            { "Type": "HamlNodeTextContainer", "LineIndex": 1, "StartIndex": 5, "Length": 5 },
+            { "Type": "HamlNodeTextLiteral", "LineIndex": 1, "StartIndex": 5, "Length": 5 }
         ]
     }
     

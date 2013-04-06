@@ -12,7 +12,7 @@ namespace System.Web.NHaml.Parser.Rules
             
         {
             if (Content[0] != '(' && Content[0] != '{')
-                throw new HamlMalformedTagException("AttributeCollection tag must start with an opening bracket or curly bracket.", Metrics);
+                throw new HamlParserMalformedTagException("AttributeCollection tag must start with an opening bracket or curly bracket.", Metrics);
 
             ParseChildren(attributeCollection);
         }

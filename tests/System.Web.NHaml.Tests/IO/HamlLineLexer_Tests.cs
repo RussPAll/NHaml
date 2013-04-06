@@ -45,6 +45,28 @@ namespace NHaml.Tests.IO
             if (expectedLineCount > 1)
                 Assert.That(lines[1].Content, Is.EqualTo(expectedLine2));
         }
+
+        [Test]
+        [TestCase("%p Content", 0, 10, 2, 8)]
+        [TestCase("%p(a='b')Content", 0, 16, 9, 7)]
+        [TestCase("%p.className Content", 0, 20, 12, 8)]
+        //[TestCase("%a:b Content", "a:b", "Content")]
+        //[TestCase("%a_b Content", "a_b", "Content")]
+        //[TestCase("%a-b Content", "a-b", "Content")]
+        //[TestCase("%a-b> Content", "a-b>", "Content")]
+        //[TestCase("%p #{one}", "p", "#{one}")]
+        [TestCase(@"%p \#{one}", 0, 10, 2, 8)]
+        public void Constructor_InlineContent_GeneratesCorrectMetrics(
+            string templateLine, int expectedLine1Col, int expectedLine1Length,
+            int expectedLine2Col, int expectedLine2Length)
+        {
+            var lines = HamlLineLexer.ParseHamlLine(templateLine, 0).ToList();
+
+            Assert.That(lines[0].Metrics.ColNo, Is.EqualTo(expectedLine1Col));
+            Assert.That(lines[0].Metrics.Length, Is.EqualTo(expectedLine1Length));
+            Assert.That(lines[1].Metrics.ColNo, Is.EqualTo(expectedLine2Col));
+            Assert.That(lines[1].Metrics.Length, Is.EqualTo(expectedLine2Length));
+        }
         
         [Test]
         public void Constructor_SimpleTag_GeneratesCorrectIndexes()

@@ -70,7 +70,7 @@ namespace System.Web.NHaml.Parser.Rules
                 string attributes = HtmlStringHelper.ExtractTokenFromTagString(content, ref pos,
                                                                                new[] {attributeEndChar});
                 if (attributes[attributes.Length - 1] != attributeEndChar)
-                    throw new HamlMalformedTagException(
+                    throw new HamlParserMalformedTagException(
                         "Malformed HTML Attributes collection \"" + attributes + "\".", Metrics);
                 AddChild(new HamlNodeHtmlAttributeCollection(Metrics.SubSpan(startIndex, attributes.Length), attributes));
 

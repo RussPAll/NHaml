@@ -31,7 +31,7 @@ namespace System.Web.NHaml.Walkers.CodeDom
         {
             var attributeNode = childNode as HamlNodeHtmlAttribute;
             if (attributeNode == null)
-                throw new HamlMalformedTagException("Unexpected " + childNode.GetType().FullName + " tag in AttributeCollection node",
+                throw new HamlParserMalformedTagException("Unexpected " + childNode.GetType().FullName + " tag in AttributeCollection node",
                     childNode.Metrics);
 
             var valueFragments = attributeNode.Children.Any(ch => ch is HamlNodeTextContainer)

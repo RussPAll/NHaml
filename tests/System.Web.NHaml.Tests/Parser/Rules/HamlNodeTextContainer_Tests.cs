@@ -66,7 +66,7 @@ namespace NHaml.Tests.Parser.Rules
         public void Children_IncompleteVariableReference_ThrowsException()
         {
             var line = new HamlLine("#{variable", HamlRuleEnum.PlainText, indent: "");
-            Assert.Throws<HamlMalformedVariableException>(() => new HamlNodeTextContainer(line));
+            Assert.Throws<HamlParserMalformedVariableException>(() => new HamlNodeTextContainer(line));
         }
     }
 }

@@ -45,7 +45,7 @@ namespace System.Web.NHaml.AddIn.Tests
             var spans = _classifier.GetClassificationSpans(snapshotSpan);
 
             // Assert
-            Assert.That(spans.Count, Is.EqualTo(10));
+            Assert.That(spans.Count, Is.EqualTo(9));
         }
 
         [Test]
